@@ -1,0 +1,8 @@
+﻿- gb00s wieder entbannen (der wille war da!)
+- Serialisieren fixen 
+- GUI hübscher machen und optimieren
+- CleanUp
+- Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)
+- Programme "switchen" 
+	- Parent -> Children Architektur
+- TODO's vom nächsten Stream einfügen
