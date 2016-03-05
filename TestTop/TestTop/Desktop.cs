@@ -17,6 +17,7 @@ namespace TestTop
     public class Desktop : IDisposable
     {
         public string Name { get; set; }
+        public Image Image { get; private set; }
         [XmlIgnore]
         public DirectoryInfo Dir { get; set; }
         [XmlIgnore]
@@ -69,6 +70,22 @@ namespace TestTop
         }
         public void Show()
         {
+
+            using (Bitmap bmpScreenCapture = new Bitmap(2560, 1440))
+            {
+                using (Graphics g = Graphics.FromImage(bmpScreenCapture))
+                {
+                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                     Screen.PrimaryScreen.Bounds.Y,
+                                     0, 0,
+                                     bmpScreenCapture.Size,
+                                     CopyPixelOperation.SourceCopy);
+
+                }
+
+                Image = (Image)new Bitmap(bmpScreenCapture, new Size(100, 100));
+            }
+
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             string value = (string)userKey?.GetValue("Desktop");
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
