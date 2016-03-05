@@ -1,4 +1,6 @@
-﻿- gb00s wieder entbannen (der wille war da!)
+﻿- PROJEKT REPARIEREN. DRINGEND. <-- Achtung Capslock
+- VS bekommt Hausarest
+- gb00s wieder entbannen (der wille war da!)
 - Serialisieren fixen 
 - GUI hübscher machen und optimieren
 - CleanUp

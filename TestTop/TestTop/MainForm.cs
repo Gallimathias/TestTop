@@ -48,7 +48,7 @@ namespace TestTop
                 {
                     Desktops[Desktops.Count - 1].CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"SARButton.exe -" + MainDesktopHandle.ToString()));
                     Desk.Show();
-                    
+
                 }
                 else
                 {
@@ -109,7 +109,11 @@ namespace TestTop
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
         }
     }
 }
