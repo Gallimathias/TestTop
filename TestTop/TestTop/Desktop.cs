@@ -71,7 +71,7 @@ namespace TestTop
         public void Show()
         {
 
-            using (Bitmap bmpScreenCapture = new Bitmap(2560, 1440))
+            using (Bitmap bmpScreenCapture = new Bitmap(1650, 1080))
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
                 {
@@ -82,8 +82,7 @@ namespace TestTop
                                      CopyPixelOperation.SourceCopy);
 
                 }
-
-                Image = (Image)new Bitmap(bmpScreenCapture, new Size(100, 100));
+                    Image = (Image)new Bitmap(bmpScreenCapture, new Size(420, 270));
             }
 
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);

@@ -10,12 +10,12 @@ namespace TestTop
     class DesktopItem
     {
         public Image Image { get; private set; }
-        public Rectangle Rect { get; private set; }
+        public Rectangle Rectangle { get; private set; }
 
         public DesktopItem(Image image, Rectangle rect)
         {
             Image = image;
-            Rect = rect;
+            Rectangle = rect;
         }
     }
 }

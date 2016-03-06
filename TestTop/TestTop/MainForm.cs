@@ -48,6 +48,7 @@ namespace TestTop
                 {
                     Desktops[Desktops.Count - 1].CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"SARButton.exe -" + MainDesktopHandle.ToString()));
                     Desk.Show();
+                    userControl11.Add(Desk.Image);
 
                 }
                 else
