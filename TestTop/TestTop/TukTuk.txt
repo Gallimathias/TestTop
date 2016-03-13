@@ -1,7 +1,4 @@
-﻿- PROJEKT REPARIEREN. DRINGEND. <-- Achtung Capslock
-- VS bekommt Hausarest
-- gb00s wieder entbannen (der wille war da!)
-- Serialisieren fixen 
+﻿- gb00s wieder entbannen (der wille war da!) Inzwischen gibt es eine Heilung, aber muss noch angewandt werden
 - GUI hübscher machen und optimieren
 - CleanUp
 - Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)

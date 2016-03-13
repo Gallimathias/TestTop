@@ -19,29 +19,43 @@ namespace TestTop
         public string Name { get; set; }
         public Image Image { get; private set; }
         [XmlIgnore]
-        public DirectoryInfo Dir { get; set; }
+        private DirectoryInfo dir;
+        public DirectoryInfo Dir {
+            get
+            {
+                return dir;
+            }
+            set
+            {
+                if (value.Name == "Default")
+                    dir = new DirectoryInfo(Path.Combine(value.Parent.FullName, "Desktop"));
+                else
+                    dir = value;
+            }
+        }
         [XmlIgnore]
         public IntPtr HandleDesktop { get; private set; }
         [XmlIgnore]
         private IntPtr NormalDesktop { get; set; }
         [XmlIgnore]
-        public Dictionary<string, byte[]> ItemPos { get; set; }
+        public DesktopHelper DesktopHelper { get; set; }
+        private Graphics graphics;
 
         public Desktop()
         {
 
         }
-        public Desktop(string name, IntPtr normalDesktop)
+        public Desktop(string name, IntPtr normalDesktop,Graphics graphics)
         {
             Name = name;
-            HandleDesktop = createNewDesktop();
             User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
             NormalDesktop = normalDesktop;
-            ItemPos = new Dictionary<string, byte[]>();
+            DesktopHelper = new DesktopHelper();
             Dir = new DirectoryInfo(
                 Path.Combine(ConfigurationManager.AppSettings.GetValues("savepath").First(),
                 Name, Name));
-
+            HandleDesktop = createNewDesktop();
+            this.graphics = graphics;
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
                 Dir.Create();
@@ -63,6 +77,7 @@ namespace TestTop
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             string value = (string)userKey?.GetValue("Desktop");
             userKey?.SetValue("Desktop", @"%USERPROFILE%\Desktop", RegistryValueKind.ExpandString);
+
             User32.SetThreadDesktop(NormalDesktop);
             User32.SwitchDesktop(NormalDesktop);
             bool returnvalue = User32.CloseDesktop(HandleDesktop);
@@ -70,8 +85,9 @@ namespace TestTop
         }
         public void Show()
         {
-
-            using (Bitmap bmpScreenCapture = new Bitmap(1650, 1080))
+            var screens = Screen.AllScreens.ToList();
+            
+            using (Bitmap bmpScreenCapture = new Bitmap(2560, 1440))
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
                 {
@@ -88,13 +104,6 @@ namespace TestTop
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             string value = (string)userKey?.GetValue("Desktop");
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
-
-            userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\Shell\Bags\1\Desktop", RegistryKeyPermissionCheck.ReadWriteSubTree);
-
-            foreach (var IconPositions in ItemPos)
-            {
-                userKey?.SetValue(IconPositions.Key, IconPositions.Value, RegistryValueKind.Binary);
-            }
 
             User32.SetThreadDesktop(HandleDesktop);
             User32.SwitchDesktop(HandleDesktop);
@@ -115,16 +124,7 @@ namespace TestTop
 
         public void Save()
         {
-            RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\Shell\Bags\1\Desktop", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            ItemPos.Clear();
-            foreach (var item in userKey.GetValueNames())
-            {
-                if (item.Contains("ItemPos"))
-                {
-                    ItemPos.Add(item, (byte[])userKey.GetValue(item));
-                }
-            }
-
+           
             DesktopSerializer.Serialize(this);
         }
 

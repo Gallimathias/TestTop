@@ -31,7 +31,7 @@
             this.desktopButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SaveButton = new System.Windows.Forms.Button();
-            this.userControl11 = new TestTop.UserControl1();
+            this.userControl11 = new TestTop.DesktopControl();
             this.SuspendLayout();
             // 
             // desktopButton
@@ -92,7 +92,7 @@
         private System.Windows.Forms.Button desktopButton;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button SaveButton;
-        private UserControl1 userControl11;
+        private DesktopControl userControl11;
     }
 }
 

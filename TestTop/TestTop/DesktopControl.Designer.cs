@@ -1,6 +1,6 @@
 ﻿namespace TestTop
 {
-    partial class UserControl1
+    partial class DesktopControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,15 @@
         {
             this.SuspendLayout();
             // 
-            // UserControl1
+            // DesktopControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "UserControl1";
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "DesktopControl";
+            this.Size = new System.Drawing.Size(200, 185);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UserControl1_Paint);
+            this.Resize += new System.EventHandler(this.DesktopControl_Resize);
             this.ResumeLayout(false);
 
         }

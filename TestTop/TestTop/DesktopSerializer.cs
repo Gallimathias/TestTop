@@ -18,13 +18,12 @@ namespace TestTop
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    writer.Write(desktop.ItemPos.Count);
-
-                    foreach (var item in desktop.ItemPos)
+                    writer.Write(desktop.DesktopHelper.Icons.Length);
+                    foreach (var item in desktop.DesktopHelper.Icons)
                     {
-                        writer.Write(item.Key);
-                        writer.Write(item.Value.Length);
-                        writer.Write(item.Value, 0, item.Value.Length);
+                        writer.Write(item.Name);
+                        writer.Write(item.Location.X);
+                        writer.Write(item.Location.Y);
                     }
                 }
             }
@@ -32,6 +31,9 @@ namespace TestTop
 
         public static void DeSerializer(Desktop desktop)
         {
+            Dictionary<string, DesktopIcon> items = new Dictionary<string, DesktopIcon>();
+            foreach (var item in desktop.DesktopHelper.Icons)
+                items.Add(item.Name, item);
             using (Stream stream = File.Open(desktop.Dir.Parent.FullName + "\\options.dt", FileMode.Open, FileAccess.Read))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -40,10 +42,11 @@ namespace TestTop
                     for (int i = 0; i < count; i++)
                     {
                         string key = reader.ReadString();
-                        int length = reader.ReadInt32();
-                        byte[] values = reader.ReadBytes(length);
-
-                        desktop.ItemPos.Add(key, values);
+                        int x = reader.ReadInt32();
+                        int y = reader.ReadInt32();
+                        DesktopIcon icon; 
+                        if (items.TryGetValue(key, out icon))
+                            desktop.DesktopHelper.SetIconPosition(icon, new System.Drawing.Point(x, y));
                     }
                 }
             }

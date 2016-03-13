@@ -25,18 +25,20 @@ namespace TestTop
         {
             InitializeComponent();
             MainDesktopHandle = User32.GetThreadDesktop(User32.GetCurrentThreadId());
-            StarterDesktop = new Desktop("Default", MainDesktopHandle);//TODO WARNUNG MUSS GEÄNDERT WERDEN
+            StarterDesktop = new Desktop("Default", MainDesktopHandle, this.CreateGraphics());//TODO WARNUNG MUSS GEÄNDERT WERDEN
             Desktops = new List<Desktop>();
             GetDesktops();
             comboBox1.Items.AddRange(_desktops.ToArray());
             _hotkeys.Add(new Hotkey(Handle, _hotkeys.Count, MOD_CONTROL, Keys.O));
             foreach (string Desk in _desktops)
             {
-                Desktops.Add(new Desktop(Desk, MainDesktopHandle));
+                Desktops.Add(new Desktop(Desk, MainDesktopHandle,this.CreateGraphics()));
             }
             comboBox1.AutoCompleteMode = AutoCompleteMode.Append;
             comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
+
+
 
         private void desktopButton_Click(object sender, EventArgs e)
         {
@@ -55,7 +57,7 @@ namespace TestTop
                 {
                     if (Desktops.Where(d => d.Name.Equals(comboBox1.Text)).Count() > 0)
                         continue;
-                    tempDesk = new Desktop(comboBox1.Text, MainDesktopHandle);
+                    tempDesk = new Desktop(comboBox1.Text, MainDesktopHandle,this.CreateGraphics());
 
                 }
             }
