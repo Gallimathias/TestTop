@@ -1,6 +1,6 @@
 using System;
 
-namespace TestTop.Basic
+namespace TestTop.Core.WinAPI
 {
 
     #region DesktopAcessMask
@@ -264,4 +264,11 @@ namespace TestTop.Basic
     }
 
     #endregion
+
+    public enum KeyModifier : int
+    {
+        MOD_CONTROL = 0x0002,
+        MOD_SHIFT = 0x0004,
+        WM_HOTKEY = 0x0312
+    }
 }

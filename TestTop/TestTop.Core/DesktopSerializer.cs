@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace TestTop
+namespace TestTop.Core
 {
     class DesktopSerializer
     {
+
         public static void Serialize(Desktop desktop)
         {
-            
             using (Stream stream = File.Open(desktop.Dir.Parent.FullName + "\\options.dt", FileMode.Create, FileAccess.Write))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))

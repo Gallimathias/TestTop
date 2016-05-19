@@ -1,6 +1,6 @@
 using System;
 
-namespace TestTop.Basic
+namespace TestTop.Core.WinAPI
 {
     public struct POINTAPI
     {

@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TestTop.Basic;
+using TestTop.Core.WinAPI;
 
 namespace TestTop
 {
     public class Hotkey
     {
-        private IntPtr Handle { get; set; }
-        private int Id { get; set; }
+        private IntPtr handle { get; set; }
+        private int id { get; set; }
 
         public Hotkey(IntPtr handle, int id, int modifier, Keys key )
         {
             User32.RegisterHotKey(handle,id,modifier,(int)key);
-            Handle = handle;
-            Id = id;
+            this.handle = handle;
+            this.id = id;
         }
 
         public void Unregister()
         {
-            User32.UnregisterHotKey(Handle, Id);
-            Handle = IntPtr.Zero;
+            User32.UnregisterHotKey(handle, id);
+            handle = IntPtr.Zero;
         }
     }
 }

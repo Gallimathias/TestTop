@@ -14,9 +14,7 @@
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
@@ -31,7 +29,6 @@
             this.desktopButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SaveButton = new System.Windows.Forms.Button();
-            this.userControl11 = new TestTop.DesktopControl();
             this.SuspendLayout();
             // 
             // desktopButton
@@ -46,6 +43,8 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(12, 12);
             this.comboBox1.Name = "comboBox1";
@@ -55,7 +54,7 @@
             // SaveButton
             // 
             this.SaveButton.Location = new System.Drawing.Point(297, 10);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SaveButton.Margin = new System.Windows.Forms.Padding(2);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(142, 23);
             this.SaveButton.TabIndex = 3;
@@ -63,21 +62,12 @@
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
-            // userControl11
-            // 
-            this.userControl11.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.userControl11.Location = new System.Drawing.Point(0, 39);
-            this.userControl11.Name = "userControl11";
-            this.userControl11.Size = new System.Drawing.Size(1046, 488);
-            this.userControl11.TabIndex = 4;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(1046, 527);
-            this.Controls.Add(this.userControl11);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.desktopButton);
@@ -92,7 +82,7 @@
         private System.Windows.Forms.Button desktopButton;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button SaveButton;
-        private DesktopControl userControl11;
+        //private DesktopControl userControl11;
     }
 }
 

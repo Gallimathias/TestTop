@@ -48,14 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basic\Delegates.cs" />
-    <Compile Include="Basic\Enums.cs" />
-    <Compile Include="Basic\Structs.cs" />
-    <Compile Include="Basic\User32.cs" />
-    <Compile Include="Desktop.cs" />
-    <Compile Include="DesktopHelper.cs" />
-    <Compile Include="DesktopItem.cs" />
-    <Compile Include="DesktopSerializer.cs" />
     <Compile Include="Hotkey.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -104,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TukTuk.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestTop.Core\TestTop.Core.csproj">
+      <Project>{f0086334-f5f9-42fb-a523-3d7957fc34a2}</Project>
+      <Name>TestTop.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace TestTop
+namespace TestTop.Core
 {
     public sealed class DesktopHelper
     {

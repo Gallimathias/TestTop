@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop", "TestTop\TestTop.csproj", "{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SARButton", "SARButton\SARButton.csproj", "{B8183185-1387-4089-8D8E-9573E1805B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Core", "TestTop.Core\TestTop.Core.csproj", "{F0086334-F5F9-42FB-A523-3D7957FC34A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
