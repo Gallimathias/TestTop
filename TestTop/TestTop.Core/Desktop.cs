@@ -125,6 +125,7 @@ namespace TestTop.Core
             HandleDesktop = IntPtr.Zero;
             normalDesktop = IntPtr.Zero;
         }
-        
+
+        public override string ToString()=>Name;
     }
 }

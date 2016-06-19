@@ -27,7 +27,7 @@
         private void InitializeComponent()
         {
             this.desktopButton = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox = new System.Windows.Forms.ComboBox();
             this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -43,13 +43,13 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 12);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 2;
+            this.comboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Location = new System.Drawing.Point(12, 12);
+            this.comboBox.Name = "comboBox1";
+            this.comboBox.Size = new System.Drawing.Size(121, 21);
+            this.comboBox.TabIndex = 2;
             // 
             // SaveButton
             // 
@@ -69,7 +69,7 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(1046, 527);
             this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox);
             this.Controls.Add(this.desktopButton);
             this.Name = "MainForm";
             this.Text = "MainForm";
@@ -80,7 +80,7 @@
 
         #endregion
         private System.Windows.Forms.Button desktopButton;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox;
         private System.Windows.Forms.Button SaveButton;
         //private DesktopControl userControl11;
     }

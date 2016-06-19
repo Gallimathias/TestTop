@@ -14,7 +14,7 @@ namespace TestTop.Core
 
         public static void Serialize(Desktop desktop)
         {
-            using (Stream stream = File.Open(desktop.Dir.Parent.FullName + "\\options.dt", FileMode.Create, FileAccess.Write))
+            using (Stream stream = File.Create(desktop.Dir.Parent.FullName + "\\options.dt"))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
@@ -31,10 +31,10 @@ namespace TestTop.Core
 
         public static void DeSerializer(Desktop desktop)
         {
-            Dictionary<string, DesktopIcon> items = new Dictionary<string, DesktopIcon>();
+            List<DesktopIcon> items = new List<DesktopIcon>();
             foreach (var item in desktop.DesktopHelper.Icons)
-                items.Add(item.Name, item);
-            using (Stream stream = File.Open(desktop.Dir.Parent.FullName + "\\options.dt", FileMode.Open, FileAccess.Read))
+                items.Add(item);
+            using (Stream stream = File.OpenRead(desktop.Dir.Parent.FullName + "\\options.dt"))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
@@ -44,8 +44,8 @@ namespace TestTop.Core
                         string key = reader.ReadString();
                         int x = reader.ReadInt32();
                         int y = reader.ReadInt32();
-                        DesktopIcon icon; 
-                        if (items.TryGetValue(key, out icon))
+                        var icon = items.FirstOrDefault(v => v.Name == key); 
+                        if (icon != null)
                             desktop.DesktopHelper.SetIconPosition(icon, new System.Drawing.Point(x, y));
                     }
                 }

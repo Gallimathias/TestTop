@@ -16,29 +16,29 @@ namespace TestTop
         public IntPtr MainDesktopHandle { get; private set; }
 
         private Desktop startDesktop;
-        private static List<string> desktops;
         private static List<Hotkey> hotkeys;
 
         public MainForm()
         {
             InitializeComponent();
-
-            desktops = new List<string>();
             hotkeys = new List<Hotkey>();
             Desktops = new List<Desktop>();
 
-            startDesktop = new Desktop("Default", MainDesktopHandle, this.CreateGraphics());//TODO WARNUNG MUSS GEÄNDERT WERDEN
+            startDesktop = new Desktop("Default", MainDesktopHandle, CreateGraphics());//TODO WARNUNG MUSS GEÄNDERT WERDEN
             MainDesktopHandle = User32.GetThreadDesktop(User32.GetCurrentThreadId());
-
+            
             GetDesktops();
-            comboBox1.Items.AddRange(desktops.ToArray());
+            comboBox.Items.AddRange(Desktops.ToArray());
             hotkeys.Add(new Hotkey(Handle, hotkeys.Count, (int)KeyModifier.MOD_CONTROL, Keys.O));
 
-            foreach (string Desk in desktops)
-                Desktops.Add(new Desktop(Desk, MainDesktopHandle, this.CreateGraphics()));
+            FillList();
+            
         }
 
-
+        private async void FillList()
+        {
+            Desktops = await HelperMethods.GetAsync<List<Desktop>>("/desktops/");
+        }
 
         private void desktopButton_Click(object sender, EventArgs e)
         {
@@ -46,7 +46,7 @@ namespace TestTop
             startDesktop.Save();
             foreach (Desktop Desk in Desktops)
             {
-                if (Desk.Name == comboBox1.Text)
+                if (Desk.Name == comboBox.Text)
                 {
                     Desktops[Desktops.Count - 1].CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"SARButton.exe -" + MainDesktopHandle.ToString()));
                     Desk.Show();
@@ -55,9 +55,9 @@ namespace TestTop
                 }
                 else
                 {
-                    if (Desktops.Where(d => d.Name.Equals(comboBox1.Text)).Count() > 0)
+                    if (Desktops.Where(d => d.Name.Equals(comboBox.Text)).Count() > 0)
                         continue;
-                    tempDesk = new Desktop(comboBox1.Text, MainDesktopHandle, this.CreateGraphics());
+                    tempDesk = new Desktop(comboBox.Text, MainDesktopHandle, this.CreateGraphics());
 
                 }
             }
@@ -78,7 +78,7 @@ namespace TestTop
         }
         private bool DesktopEnumProc(string lpszDesktop, IntPtr lParam)
         {
-            desktops.Add(lpszDesktop);
+            Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle, CreateGraphics()));;
             return true;
         }
 
