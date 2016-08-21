@@ -14,7 +14,7 @@ namespace TestTop
         public static string url = "http://localhost:80";
         public static string Token;
         public static async Task<T> GetAsync<T>(string requestPath)
-      => await WithoutBody<T>(requestPath, "GET");
+            => await WithoutBody<T>(requestPath, "GET");
 
         public static async Task<T> WithoutBody<T>(string requestPath, string method)
         {

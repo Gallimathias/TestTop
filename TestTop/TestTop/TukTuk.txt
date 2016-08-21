@@ -1,7 +1,9 @@
-﻿- gb00s wieder entbannen (der wille war da!) Inzwischen gibt es eine Heilung, aber muss noch angewandt werden
+﻿- CleanUp
 - GUI hübscher machen und optimieren
-- CleanUp
+- EventSystem integrieren (Docking Station) OnScreensFuckedUp ‼‼ Wichtig ‼‼ (Microsoft styl wurde beachtet)
 - Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)
 - Programme "switchen" 
 	- Parent -> Children Architektur
 - TODO's vom nächsten Stream einfügen
+- VM und Nudeln Aufsetzen
+ps. Kleinweich mit insider Programm verarschen

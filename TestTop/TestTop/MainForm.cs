@@ -24,8 +24,10 @@ namespace TestTop
             hotkeys = new List<Hotkey>();
             Desktops = new List<Desktop>();
 
-            startDesktop = new Desktop("Default", MainDesktopHandle, CreateGraphics());//TODO WARNUNG MUSS GEÄNDERT WERDEN
             MainDesktopHandle = User32.GetThreadDesktop(User32.GetCurrentThreadId());
+            startDesktop = new Desktop("Default", MainDesktopHandle, CreateGraphics(), MainDesktopHandle);
+
+            File.WriteAllText(@"D:\Desktops\mainhandle.txt", MainDesktopHandle.ToString());
             
             GetDesktops();
             comboBox.Items.AddRange(Desktops.ToArray());
@@ -37,7 +39,7 @@ namespace TestTop
 
         private async void FillList()
         {
-            Desktops = await HelperMethods.GetAsync<List<Desktop>>("/desktops/");
+            //Desktops = await HelperMethods.GetAsync<List<Desktop>>("/desktops/");
         }
 
         private void desktopButton_Click(object sender, EventArgs e)
@@ -98,7 +100,7 @@ namespace TestTop
 
         public void switchBack()
         {
-            User32.SwitchDesktop(MainDesktopHandle);
+            //User32.SwitchDesktop(MainDesktopHandle);
             User32.SetThreadDesktop(MainDesktopHandle);
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             string value = (string)userKey?.GetValue("Desktop");

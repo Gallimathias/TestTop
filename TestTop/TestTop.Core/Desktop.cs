@@ -47,7 +47,8 @@ namespace TestTop.Core
                 Path.Combine(ConfigurationManager.AppSettings.GetValues("savepath").First(),
                 Name, Name));
 
-            HandleDesktop = createNewDesktop();
+            HandleDesktop = createNewDesktop();  //TODO: Problem
+                
 
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
@@ -62,6 +63,11 @@ namespace TestTop.Core
             //User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
         }
 
+        public Desktop(string name, IntPtr normalDesktop, Graphics graphics, IntPtr DesktopHandle) : this(name, normalDesktop, graphics)
+        {
+           HandleDesktop = DesktopHandle;
+        }
+
         private IntPtr createNewDesktop() =>
             User32.CreateDesktop(Name, IntPtr.Zero, IntPtr.Zero, 0, (long)DesktopAcessMask.GENERIC_ALL, IntPtr.Zero);
 
@@ -73,7 +79,7 @@ namespace TestTop.Core
             userKey?.SetValue("Desktop", @"%USERPROFILE%\Desktop", RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(normalDesktop);
-            User32.SwitchDesktop(normalDesktop);
+            //User32.SwitchDesktop(normalDesktop);
             User32.CloseDesktop(HandleDesktop);
             //Dispose();
         }
@@ -101,7 +107,7 @@ namespace TestTop.Core
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(HandleDesktop);
-            User32.SwitchDesktop(HandleDesktop);
+            //User32.SwitchDesktop(HandleDesktop);
         }
 
         public void CreateProcess(string name)
