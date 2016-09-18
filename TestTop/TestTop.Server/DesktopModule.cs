@@ -13,7 +13,7 @@ namespace TestTop.Server
     {
         public DesktopModule() : base("/desktops")
         {
-            Get["/", true] = GetDesktopList;
+            //Get["/", true] = GetDesktopList;
             Post["/{intPtr:int}", true] = AddDesktop;
             Put["/{intPtr:int}", true] = UpdateDesktop;
         }
@@ -28,6 +28,6 @@ namespace TestTop.Server
             throw new NotImplementedException();
         }
 
-        private async Task<dynamic> GetDesktopList(dynamic ctx, CancellationToken token) => new List<Desktop>().ToJson();
+        //private async Task<dynamic> GetDesktopList(dynamic ctx, CancellationToken token) => new List<Desktop>().ToJson();
     }
 }

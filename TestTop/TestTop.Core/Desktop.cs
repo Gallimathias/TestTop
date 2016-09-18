@@ -48,7 +48,7 @@ namespace TestTop.Core
                 Name, Name));
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
-                
+
 
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
@@ -60,12 +60,12 @@ namespace TestTop.Core
                 DesktopSerializer.DeSerializer(this);
             }
 
-            //User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
+            User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
         }
 
         public Desktop(string name, IntPtr normalDesktop, Graphics graphics, IntPtr DesktopHandle) : this(name, normalDesktop, graphics)
         {
-           HandleDesktop = DesktopHandle;
+            HandleDesktop = DesktopHandle;
         }
 
         private IntPtr createNewDesktop() =>
@@ -79,14 +79,15 @@ namespace TestTop.Core
             userKey?.SetValue("Desktop", @"%USERPROFILE%\Desktop", RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(normalDesktop);
-            //User32.SwitchDesktop(normalDesktop);
+            User32.SwitchDesktop(normalDesktop);
             User32.CloseDesktop(HandleDesktop);
+            
             //Dispose();
         }
 
         public void Show()
         {
-            using (Bitmap bmpScreenCapture = new Bitmap(2560, 1440))
+            using (Bitmap bmpScreenCapture = new Bitmap(1920, 1080))
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
                 {
@@ -101,13 +102,12 @@ namespace TestTop.Core
                 Image = new Bitmap(bmpScreenCapture, new Size(420, 270));
             }
 
-
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             //string value = (string)userKey?.GetValue("Desktop");
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(HandleDesktop);
-            //User32.SwitchDesktop(HandleDesktop);
+            User32.SwitchDesktop(HandleDesktop);
         }
 
         public void CreateProcess(string name)
@@ -119,7 +119,7 @@ namespace TestTop.Core
             PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
 
             // start the process.
-            User32.CreateProcess(null, name, IntPtr.Zero, IntPtr.Zero, true, (int)WindowStylesEx.WS_EX_TRANSPARENT, 
+            User32.CreateProcess(null, name, IntPtr.Zero, IntPtr.Zero, true, (int)WindowStylesEx.WS_EX_TRANSPARENT,
                                  IntPtr.Zero, null, ref si, ref pi);
         }
 
@@ -132,6 +132,6 @@ namespace TestTop.Core
             normalDesktop = IntPtr.Zero;
         }
 
-        public override string ToString()=>Name;
+        public override string ToString() => Name;
     }
 }

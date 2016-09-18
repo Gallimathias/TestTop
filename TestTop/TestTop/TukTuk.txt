@@ -4,6 +4,7 @@
 - Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)
 - Programme "switchen" 
 	- Parent -> Children Architektur
-- TODO's vom nächsten Stream einfügen
-- VM und Nudeln Aufsetzen
+- http://www.strawpoll.me/11153482/
 ps. Kleinweich mit insider Programm verarschen
+- OnDesktopItemClicked in DesktopControl
+- Richtiger Name und DesktopScreenshot (Name steht in .... s.h. Regedit.exe)

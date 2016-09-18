@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using TestTop.Core.WinAPI;
 
 namespace TestTop.Core
 {
@@ -154,10 +155,14 @@ namespace TestTop.Core
                 desktopHandle = new IntPtr((desktopHandle.ToInt32() + 2));
                 desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
             }
+
+            if (desktopHandle == IntPtr.Zero)
+                desktopHandle = User32.GetDesktopWindow();
+
             if (desktopHandle.Equals(IntPtr.Zero))
                 throw new ArgumentNullException("DesktopHandle");
             else
-                this.CreateDesktopIconList();
+                CreateDesktopIconList();
         }
 
         /// <summary>

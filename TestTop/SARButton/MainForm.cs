@@ -22,6 +22,7 @@ namespace SARButton
         [DllImport("user32.dll", SetLastError = false)]
         static extern IntPtr GetDesktopWindow();
         public IntPtr DesktopHandle { get; set; }
+
         public MainForm(string[] args)
         {
             InitializeComponent();
