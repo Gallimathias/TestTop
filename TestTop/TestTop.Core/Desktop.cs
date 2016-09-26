@@ -87,20 +87,7 @@ namespace TestTop.Core
 
         public void Show()
         {
-            using (Bitmap bmpScreenCapture = new Bitmap(1920, 1080))
-            {
-                using (Graphics g = Graphics.FromImage(bmpScreenCapture))
-                {
-                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                     Screen.PrimaryScreen.Bounds.Y,
-                                     0, 0,
-                                     bmpScreenCapture.Size,
-                                     CopyPixelOperation.SourceCopy);
-
-                }
-
-                Image = new Bitmap(bmpScreenCapture, new Size(420, 270));
-            }
+ 
 
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             //string value = (string)userKey?.GetValue("Desktop");
@@ -109,7 +96,7 @@ namespace TestTop.Core
             User32.SetThreadDesktop(HandleDesktop);
             User32.SwitchDesktop(HandleDesktop);
         }
-
+                
         public void CreateProcess(string name)
         {
             STARTUPINFO si = new STARTUPINFO();
@@ -133,5 +120,23 @@ namespace TestTop.Core
         }
 
         public override string ToString() => Name;
+
+        public static Bitmap TakeScreenshot()
+        {
+            using (Bitmap bmpScreenCapture = new Bitmap(1920, 1080))
+            {
+                using (Graphics g = Graphics.FromImage(bmpScreenCapture))
+                {
+                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                     Screen.PrimaryScreen.Bounds.Y,
+                                     0, 0,
+                                     bmpScreenCapture.Size,
+                                     CopyPixelOperation.SourceCopy);
+
+                }
+
+                return new Bitmap(bmpScreenCapture, new Size(420, 270));
+            }
+        }
     }
 }

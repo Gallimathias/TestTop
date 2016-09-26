@@ -14,16 +14,23 @@ namespace TestTop
     public partial class DesktopControl : UserControl
     {
         public DesktopHelper DesktopHelper { get; private set; }
-        List<Image> DeskItem = new List<Image>();
+        Dictionary<string, Image> screenshots;
+
+
         public DesktopControl()
         {
             InitializeComponent();
+            screenshots = new Dictionary<string, Image>();
             DesktopHelper = new DesktopHelper();
         }
 
-        public void Add(Image image)
+        public void Add(string desktopName, Image image)
         {
-            DeskItem.Add(image);
+            if(!screenshots.ContainsKey(desktopName))
+                screenshots.Add(desktopName, image);
+
+            screenshots[desktopName] = image;
+
             Invalidate();
         }
 
@@ -31,23 +38,25 @@ namespace TestTop
         private void UserControl1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-            Font f = new Font(FontFamily.GenericMonospace, 200f, FontStyle.Bold);
+            Font f = new Font(FontFamily.GenericMonospace, 30f, FontStyle.Bold);
             int x = 0, y = 0, maxHeight = 0;
-            for (int i = 0; i < DeskItem.Count; i++)
+
+           foreach (var screenshot in screenshots)
             {
-                Image image = DeskItem[i];
+                Image image = screenshot.Value;
                 maxHeight = Math.Max(image.Height, maxHeight);
 
-                if (x + image.Width > this.ClientSize.Width)
+                if (x + image.Width > ClientSize.Width)
                 {
                     x = 0;
                     y += maxHeight;
-                    maxHeight = image.Height;
+                    maxHeight = image.Height + 5;
                 }
                 e.Graphics.DrawImage(image, x, y);
-                e.Graphics.DrawString(i.ToString(), f, Brushes.Red, new Rectangle(x, y, image.Width, image.Height));
+                e.Graphics.DrawString(screenshot.Key, f, Brushes.Red, new Rectangle(x, y, image.Width, image.Height));
 
-                x += image.Width;
+                x += image.Width + 5;
+                
             }
         }
 

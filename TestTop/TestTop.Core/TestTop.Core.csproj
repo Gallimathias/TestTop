@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="Initialitation.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="WinAPI\Delegates.cs" />
     <Compile Include="WinAPI\Enums.cs" />
     <Compile Include="WinAPI\Structs.cs" />

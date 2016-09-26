@@ -4,7 +4,7 @@
 - Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)
 - Programme "switchen" 
 	- Parent -> Children Architektur
-- http://www.strawpoll.me/11153482/
+- http://www.strawpoll.me/11308847
 ps. Kleinweich mit insider Programm verarschen
 - OnDesktopItemClicked in DesktopControl
 - Richtiger Name und DesktopScreenshot (Name steht in .... s.h. Regedit.exe)

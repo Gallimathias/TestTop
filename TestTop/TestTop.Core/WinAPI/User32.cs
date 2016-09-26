@@ -22,9 +22,6 @@ namespace TestTop.Core.WinAPI
         public static extern bool CloseDesktop(IntPtr hDesktop);
 
         [DllImport("user32.dll")]
-        public static extern bool SwitchDesktop(IntPtr hDesktop);
-
-        [DllImport("user32.dll")]
         public static extern IntPtr GetThreadDesktop(int dwThreadId);
 
         [DllImport("kernel32.dll")]
@@ -222,6 +219,9 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
+
+        [DllImport("user32.dll")]
+        public static extern bool SwitchDesktop(IntPtr hDesktop);
 
         [DllImport("user32.dll")]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);

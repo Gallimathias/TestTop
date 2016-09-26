@@ -14,6 +14,7 @@ namespace TestTop
     {
         public List<Desktop> Desktops { get; set; }
         public IntPtr MainDesktopHandle { get; private set; }
+        public Desktop CurrentDesktop { get; private set; }
 
         private Desktop startDesktop;
         private static List<Hotkey> hotkeys;
@@ -23,16 +24,15 @@ namespace TestTop
             InitializeComponent();
             hotkeys = new List<Hotkey>();
             Desktops = new List<Desktop>();
-            
+
             MainDesktopHandle = User32.GetDesktopWindow();
             startDesktop = new Desktop("Default", MainDesktopHandle, CreateGraphics(), MainDesktopHandle);
-
+            CurrentDesktop = startDesktop;
             File.WriteAllText(@"D:\Desktops\mainhandle.txt", MainDesktopHandle.ToString());
-            
+
             GetDesktops();
             comboBox.Items.AddRange(Desktops.ToArray());
             hotkeys.Add(new Hotkey(Handle, hotkeys.Count, (int)KeyModifier.MOD_CONTROL, Keys.O));
-            
             
         }
 
@@ -52,12 +52,12 @@ namespace TestTop
                 GetDesktops();
             }
 
+            desktopControl1.Add(CurrentDesktop.Name, Desktop.TakeScreenshot());
             desk.Show();
             desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
             //desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
-            desktopControl1.Add(desk.Name, desk.Image);
+            CurrentDesktop = desk;
 
-           
         }
 
         public void GetDesktops()
@@ -68,7 +68,7 @@ namespace TestTop
 
         private bool DesktopEnumProc(string lpszDesktop, IntPtr lParam)
         {
-            Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle, CreateGraphics()));;
+            Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle, CreateGraphics())); ;
             return true;
         }
 
@@ -79,8 +79,8 @@ namespace TestTop
                 switch ((int)m.WParam)
                 {
                     case 0: switchBack(); break;
-                    case 1: MessageBox.Show(String.Format("Hotkey {0} erhalten.", m.WParam.ToString())); break;
-                    case 2: MessageBox.Show(String.Format("Hotkey {0} erhalten.", m.WParam.ToString())); break;
+                    case 1: MessageBox.Show(string.Format("Hotkey {0} erhalten.", m.WParam.ToString())); break;
+                    case 2: MessageBox.Show(string.Format("Hotkey {0} erhalten.", m.WParam.ToString())); break;
                 }
             }
             base.WndProc(ref m);
