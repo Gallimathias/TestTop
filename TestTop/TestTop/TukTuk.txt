@@ -8,3 +8,4 @@
 ps. Kleinweich mit insider Programm verarschen
 - OnDesktopItemClicked in DesktopControl
 - Richtiger Name und DesktopScreenshot (Name steht in .... s.h. Regedit.exe)
+- An die Zukunft: Wir haben letzten Sonntag an den File strukturen gearbeitet

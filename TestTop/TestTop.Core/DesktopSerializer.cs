@@ -27,6 +27,8 @@ namespace TestTop.Core
                     }
                 }
             }
+
+            FileManager.SerializeDesktopIni(desktop.ToIni(), $@"{desktop.Dir.Parent.FullName}\{desktop.Name}.ini");
         }
 
         public static void DeSerializer(Desktop desktop)

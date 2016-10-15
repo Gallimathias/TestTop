@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="DesktopManager.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="Initialitation.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="JsonFiles\DesktopIni.cs" />
+    <Compile Include="JsonFiles\MainIni.cs" />
     <Compile Include="WinAPI\Delegates.cs" />
     <Compile Include="WinAPI\Enums.cs" />
     <Compile Include="WinAPI\Structs.cs" />

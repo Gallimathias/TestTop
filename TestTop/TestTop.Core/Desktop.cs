@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Drawing;
 using TestTop.Core.WinAPI;
 using System.Windows.Forms;
+using TestTop.Core.JsonFiles;
 
 namespace TestTop.Core
 {
@@ -67,11 +68,7 @@ namespace TestTop.Core
         {
             HandleDesktop = DesktopHandle;
         }
-
-        private IntPtr createNewDesktop() =>
-            User32.CreateDesktop(Name, IntPtr.Zero, IntPtr.Zero, 0, (long)DesktopAcessMask.GENERIC_ALL, IntPtr.Zero);
-
-
+        
         public void Delete()
         {
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
@@ -119,6 +116,14 @@ namespace TestTop.Core
             normalDesktop = IntPtr.Zero;
         }
 
+        public DesktopIni ToIni()
+        {
+            var ini = new DesktopIni();
+            ini.Name = Name;
+
+            return ini;
+        }
+
         public override string ToString() => Name;
 
         public static Bitmap TakeScreenshot()
@@ -138,5 +143,8 @@ namespace TestTop.Core
                 return new Bitmap(bmpScreenCapture, new Size(420, 270));
             }
         }
+        
+        private IntPtr createNewDesktop() =>
+          User32.CreateDesktop(Name, IntPtr.Zero, IntPtr.Zero, 0, (long)DesktopAcessMask.GENERIC_ALL, IntPtr.Zero);
     }
 }

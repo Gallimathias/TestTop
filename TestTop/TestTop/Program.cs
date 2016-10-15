@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestTop.Core;
 
 namespace TestTop
 {
@@ -16,6 +17,7 @@ namespace TestTop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DesktopManager.Initialize();
             Application.Run(new MainForm());
         }
     }
