@@ -22,7 +22,5 @@ namespace TestTop.Core
         
         public static DesktopIni DeserializeDesktopIni(string path) =>
             JsonConvert.DeserializeObject<DesktopIni>(File.ReadAllText(path));
-
-
     }
 }

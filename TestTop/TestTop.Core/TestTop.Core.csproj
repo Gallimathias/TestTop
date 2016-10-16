@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="DesktopManager.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="Installation\Installer.cs" />
     <Compile Include="JsonFiles\DesktopIni.cs" />
     <Compile Include="JsonFiles\MainIni.cs" />
     <Compile Include="WinAPI\Delegates.cs" />

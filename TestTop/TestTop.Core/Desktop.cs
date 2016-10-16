@@ -49,8 +49,7 @@ namespace TestTop.Core
                 Name, Name));
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
-
-
+            
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
                 Dir.Create();
@@ -60,7 +59,7 @@ namespace TestTop.Core
             {
                 DesktopSerializer.DeSerializer(this);
             }
-
+            
             User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
         }
 
@@ -77,6 +76,7 @@ namespace TestTop.Core
 
             User32.SetThreadDesktop(normalDesktop);
             User32.SwitchDesktop(normalDesktop);
+            User32.SetThreadDesktop(normalDesktop);            
             User32.CloseDesktop(HandleDesktop);
             
             //Dispose();
@@ -84,16 +84,15 @@ namespace TestTop.Core
 
         public void Show()
         {
- 
-
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
             //string value = (string)userKey?.GetValue("Desktop");
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(HandleDesktop);
             User32.SwitchDesktop(HandleDesktop);
+            User32.SetThreadDesktop(HandleDesktop);
         }
-                
+
         public void CreateProcess(string name)
         {
             STARTUPINFO si = new STARTUPINFO();
@@ -120,15 +119,17 @@ namespace TestTop.Core
         {
             var ini = new DesktopIni();
             ini.Name = Name;
-
+            ini.Screenshot = @""; //TODO Gute Zeile
             return ini;
         }
 
         public override string ToString() => Name;
 
-        public static Bitmap TakeScreenshot()
+        public Bitmap TakeScreenshot()
         {
-            using (Bitmap bmpScreenCapture = new Bitmap(1920, 1080))
+            var width   = Screen.PrimaryScreen.Bounds.Width;
+            var height  = Screen.PrimaryScreen.Bounds.Height;
+            using (Bitmap bmpScreenCapture = new Bitmap(width, height))
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
                 {
@@ -137,10 +138,9 @@ namespace TestTop.Core
                                      0, 0,
                                      bmpScreenCapture.Size,
                                      CopyPixelOperation.SourceCopy);
-
                 }
-
-                return new Bitmap(bmpScreenCapture, new Size(420, 270));
+                bmpScreenCapture.Save(Dir.Parent.FullName + @"/screenshot.bmp");
+                return new Bitmap(bmpScreenCapture, new Size(width / 4, height / 4));
             }
         }
         

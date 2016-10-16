@@ -28,7 +28,7 @@ namespace TestTop
             MainDesktopHandle = User32.GetDesktopWindow();
             startDesktop = new Desktop("Default", MainDesktopHandle, CreateGraphics(), MainDesktopHandle);
             CurrentDesktop = startDesktop;
-            File.WriteAllText(@"D:\Desktops\mainhandle.txt", MainDesktopHandle.ToString());
+            File.WriteAllText(@"C:\Users\Public\Desktops\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
 
             GetDesktops();
             comboBox.Items.AddRange(Desktops.ToArray());
@@ -52,7 +52,7 @@ namespace TestTop
                 GetDesktops();
             }
 
-            desktopControl1.Add(CurrentDesktop.Name, Desktop.TakeScreenshot());
+            desktopControl1.Add(CurrentDesktop.Name, CurrentDesktop.TakeScreenshot());
             desk.Show();
             desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
             //desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));

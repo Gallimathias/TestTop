@@ -19,6 +19,7 @@ namespace TestTop
             Application.SetCompatibleTextRenderingDefault(false);
             DesktopManager.Initialize();
             Application.Run(new MainForm());
+            TestTop.Core.Installation.Installer.Install();
         }
     }
 }

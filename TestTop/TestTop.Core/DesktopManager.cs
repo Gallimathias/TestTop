@@ -28,10 +28,9 @@ namespace TestTop.Core
             {
             }
            
-
             CurrentDesktopsFolder = new DirectoryInfo(value);
-
             MainIni = FileManager.DeserializeMainIni($@"{CurrentDesktopsFolder.FullName}\main.ini");
+
             IsInitialized = true;
         }
 
