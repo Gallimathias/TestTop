@@ -17,9 +17,11 @@ namespace TestTop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            if (!Core.Installation.Installer.Install())
+                return;
+
             DesktopManager.Initialize();
             Application.Run(new MainForm());
-            TestTop.Core.Installation.Installer.Install();
         }
     }
 }

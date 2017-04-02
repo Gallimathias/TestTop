@@ -83,7 +83,6 @@
             this.Controls.Add(this.desktopButton);
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }

@@ -133,7 +133,7 @@ namespace TestTop.Core
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
                 {
-                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, //TODO Idee vom Stream 4.2.2017
                                      Screen.PrimaryScreen.Bounds.Y,
                                      0, 0,
                                      bmpScreenCapture.Size,

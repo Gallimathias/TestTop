@@ -86,22 +86,13 @@ namespace TestTop
             base.WndProc(ref m);
         }
 
-        public void switchBack()
+        public void switchBack()// => Desktops.First(y => y.Name == "Default").Show();
         {
-            User32.SwitchDesktop(MainDesktopHandle);
-            User32.SetThreadDesktop(MainDesktopHandle);
-            RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            string value = (string)userKey?.GetValue("Desktop");
-            userKey?.SetValue("Desktop", @"%USERPROFILE%\Desktop", RegistryValueKind.ExpandString);
-        }
-
-        public void Save()
-        {
-            //***RegistryKey key = Registry.CurrentUser.OpenSubKey();
+            comboBox.Text = "Default";
+            desktopButton_Click(null, null);
         }
 
         private void SaveButton_Click(object sender, EventArgs e) { }
-
-        private void MainForm_Load(object sender, EventArgs e) { }
+        
     }
 }
