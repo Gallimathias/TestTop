@@ -81,8 +81,7 @@ namespace TestTop.Core
 
             int iconCount = this.IconCount;
 
-            uint vProcessId;
-            GetWindowThreadProcessId(this.desktopHandle, out vProcessId);
+            GetWindowThreadProcessId(this.desktopHandle, out uint vProcessId);
 
             IntPtr vProcess = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_READ |
                     PROCESS_VM_WRITE, false, vProcessId);

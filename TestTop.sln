@@ -1,13 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop", "TestTop\TestTop.csproj", "{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SARButton", "SARButton\SARButton.csproj", "{B8183185-1387-4089-8D8E-9573E1805B6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Core", "TestTop.Core\TestTop.Core.csproj", "{F0086334-F5F9-42FB-A523-3D7957FC34A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Tray", "TestTop.Tray\TestTop.Tray.csproj", "{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0371555C-95AB-4DE7-B067-887D2A739C2D}"
+	ProjectSection(SolutionItems) = preProject
+		TukTuk.txt = TukTuk.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Forms", "TestTop.Forms\TestTop.Forms.csproj", "{FCCB2C75-ACD3-46D3-B172-02FB34D94839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop", "TestTop\TestTop.csproj", "{EAF72848-B3C8-4746-8A32-1921AE16C650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.TestService", "TestTop.TestService\TestTop.TestService.csproj", "{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEA664EC-6D4B-4C7B-A322-44EBB3476F10}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8183185-1387-4089-8D8E-9573E1805B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +34,22 @@ Global
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF72848-B3C8-4746-8A32-1921AE16C650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF72848-B3C8-4746-8A32-1921AE16C650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF72848-B3C8-4746-8A32-1921AE16C650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF72848-B3C8-4746-8A32-1921AE16C650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
