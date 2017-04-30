@@ -37,10 +37,10 @@ namespace TestTop.Core
         public static void AddDesktopToIni(Desktop desktop)
         {
             MainIni.Desktops.Add(desktop.Name);
-            saveIni();
+            SaveIni();
         }
 
-        private static void saveIni() =>
+        private static void SaveIni() =>
             FileManager.SerializeMainIni(MainIni, $@"{CurrentDesktopPath.FullName}\main.ini");
 
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TestTop.Core.WinAPI;
 
@@ -16,8 +12,8 @@ namespace TestTop.Forms
         public Hotkey(IntPtr handle, int id, int modifier, Keys key )
         {
             User32.RegisterHotKey(handle,id,modifier,(int)key);
-            this.Handle = handle;
-            this.Id = id;
+            Handle = handle;
+            Id = id;
         }
 
         public void Unregister()

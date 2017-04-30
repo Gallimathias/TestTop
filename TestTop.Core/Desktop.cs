@@ -35,6 +35,7 @@ namespace TestTop.Core
         private IntPtr normalDesktop;
         private Graphics graphics;
         private DirectoryInfo dir;
+        private IntPtr mainDesktopHandle;
 
         public Desktop(string name, IntPtr normalDesktop, Graphics graphics)
         {
@@ -49,7 +50,7 @@ namespace TestTop.Core
                 Name, Name));
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
-            
+
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
                 Dir.Create();
@@ -59,15 +60,21 @@ namespace TestTop.Core
             {
                 DesktopSerializer.DeSerializer(this);
             }
-            
+
             User32.OpenDesktop(Name, 0x0001, false, (long)DesktopAcessMask.GENERIC_ALL);
         }
-
         public Desktop(string name, IntPtr normalDesktop, Graphics graphics, IntPtr DesktopHandle) : this(name, normalDesktop, graphics)
         {
             HandleDesktop = DesktopHandle;
         }
-        
+        public Desktop(string name, IntPtr mainDesktopHandle) : this(name, mainDesktopHandle, Graphics.FromImage(new Bitmap(1, 1)))
+        {
+
+        }
+        public Desktop(string name, IntPtr normalDesktop, IntPtr DesktopHandle) : this(name, normalDesktop, Graphics.FromImage(new Bitmap(1, 1)), DesktopHandle)
+        {
+        }
+
         public void Delete()
         {
             RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
@@ -76,9 +83,9 @@ namespace TestTop.Core
 
             User32.SetThreadDesktop(normalDesktop);
             User32.SwitchDesktop(normalDesktop);
-            User32.SetThreadDesktop(normalDesktop);            
+            User32.SetThreadDesktop(normalDesktop);
             User32.CloseDesktop(HandleDesktop);
-            
+
             //Dispose();
         }
 
@@ -127,8 +134,8 @@ namespace TestTop.Core
 
         public Bitmap TakeScreenshot()
         {
-            var width   = Screen.PrimaryScreen.Bounds.Width;
-            var height  = Screen.PrimaryScreen.Bounds.Height;
+            var width = Screen.PrimaryScreen.Bounds.Width;
+            var height = Screen.PrimaryScreen.Bounds.Height;
             using (Bitmap bmpScreenCapture = new Bitmap(width, height))
             {
                 using (Graphics g = Graphics.FromImage(bmpScreenCapture))
@@ -143,7 +150,7 @@ namespace TestTop.Core
                 return new Bitmap(bmpScreenCapture, new Size(width / 4, height / 4));
             }
         }
-        
+
         private IntPtr createNewDesktop() =>
           User32.CreateDesktop(Name, IntPtr.Zero, IntPtr.Zero, 0, (long)DesktopAcessMask.GENERIC_ALL, IntPtr.Zero);
     }

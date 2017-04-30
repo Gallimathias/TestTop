@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SARButton", "SARButton\SARButton.csproj", "{B8183185-1387-4089-8D8E-9573E1805B6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Core", "TestTop.Core\TestTop.Core.csproj", "{F0086334-F5F9-42FB-A523-3D7957FC34A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Tray", "TestTop.Tray\TestTop.Tray.csproj", "{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0371555C-95AB-4DE7-B067-887D2A739C2D}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop", "TestTop\TestTop.csproj", "{EAF72848-B3C8-4746-8A32-1921AE16C650}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.TestService", "TestTop.TestService\TestTop.TestService.csproj", "{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTop.Tray", "TestTop.Tray\TestTop.Tray.csproj", "{ECF73EBA-87F3-46B1-A1E0-7A9DEA889238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +34,6 @@ Global
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0086334-F5F9-42FB-A523-3D7957FC34A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF56CC0B-CEF7-4CBE-B049-9B9C8C291484}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCB2C75-ACD3-46D3-B172-02FB34D94839}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +46,10 @@ Global
 		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4C2693F-FA48-4554-9AF0-8AE46498D4DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF73EBA-87F3-46B1-A1E0-7A9DEA889238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF73EBA-87F3-46B1-A1E0-7A9DEA889238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF73EBA-87F3-46B1-A1E0-7A9DEA889238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF73EBA-87F3-46B1-A1E0-7A9DEA889238}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

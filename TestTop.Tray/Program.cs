@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TestTop.Tray
 {
-    class Program
+    static class Program
     {
-
+        private static TrayApplication trayApplication;
+        /// <summary>
+        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            var app = new TrayApplication();
-            app.Run();
-            app.Dispose();
+            trayApplication = new TrayApplication();
+            trayApplication.OnExit += (s, e) => Application.Exit();
+            trayApplication.Run();
+            Application.Run();
+            
         }
     }
 }
