@@ -9,14 +9,14 @@ using CoMaS.Attributes;
 namespace TestTop.TestService.Commands
 {
     [Command("/switchdesktop")]
-    internal class SwitchCommand : Command<string, string>
+    internal class SwitchCommand : Command<string[], string>
     {
         public SwitchCommand() : base()
         {
             NextFunction = Switch;
         }
 
-        private string Switch(string arg)
+        private string Switch(string[] arg)
         {
             RaiseFinishEvent(this, arg);
             return "";

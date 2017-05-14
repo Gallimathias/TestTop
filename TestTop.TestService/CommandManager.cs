@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TestTop.TestService
 {
     [CoMaS.Attributes.CommandManager("CommandManager", "TestTop.TestService.Commands")]
-    public class CommandManager : CoMaS.CommandManager<string, string>
+    public class CommandManager : CoMaS.CommandManager<string[], string>
     {
 
     }

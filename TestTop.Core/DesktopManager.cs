@@ -14,6 +14,12 @@ namespace TestTop.Core
         public static MainIni MainIni { get; private set; }
         public static DirectoryInfo CurrentDesktopPath { get; private set; }
         public static DirectoryInfo CurrentDesktopsFolder { get; private set; }
+        public static List<Desktop> Desktops { get; set; }
+        public static IntPtr MainDesktopHandle { get; set; }
+        //public static Desktop CurrentDesktop { get; private set; }
+        //
+        //private static Desktop startDesktop;
+
 
         public static bool IsInitialized { get; set; }
 
@@ -40,8 +46,7 @@ namespace TestTop.Core
             SaveIni();
         }
 
-        private static void SaveIni() =>
-            FileManager.SerializeMainIni(MainIni, $@"{CurrentDesktopPath.FullName}\main.ini");
+        private static void SaveIni() => FileManager.SerializeMainIni(MainIni, $@"{CurrentDesktopPath.FullName}\main.ini");
 
     }
 }

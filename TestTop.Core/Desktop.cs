@@ -45,11 +45,19 @@ namespace TestTop.Core
 
             DesktopHelper = new DesktopHelper();
 
-            Dir = new DirectoryInfo(
-                Path.Combine(ConfigurationManager.AppSettings.GetValues("savepath").First(),
-                Name, Name));
+            try
+            {
+                Dir = new DirectoryInfo(
+                       Path.Combine(ConfigurationManager.AppSettings.GetValues("savepath").First(),
+                       Name, Name));
+            }
+            catch (Exception)
+            {
+
+            }
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
+
 
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
