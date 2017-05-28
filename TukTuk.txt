@@ -1,12 +1,20 @@
-﻿- CleanUp
+﻿-----------------------------------------------------------------------------------------------------------------------------
+ToDo:
+-----------------------------------------------------------------------------------------------------------------------------
+- CleanUp
 - GUI hübscher machen und optimieren
 - EventSystem integrieren (Docking Station) OnScreensFuckedUp ‼‼ Wichtig ‼‼ (Microsoft styl wurde beachtet)
 - Alter Desktop vor Switching muss gemerkt und gespeichert werden z.B (A -> B -> C -> A)
 - Programme "switchen" 
 	- Parent -> Children Architektur
-- http://www.strawpoll.me/11308847
 ps. Kleinweich mit insider Programm verarschen
 - OnDesktopItemClicked in DesktopControl
 - Richtiger Name und DesktopScreenshot (Name steht in .... s.h. Regedit.exe)
-- An die Zukunft: Wir haben letzten Sonntag an den File strukturen gearbeitet
 - An die weitere entfernte Zukunft: Zusatztool für Screenshot auf jedem Desktop (Möglichst Schlank) Idee 2.4.2017 #Steuerung
+
+-----------------------------------------------------------------------------------------------------------------------------
+Erledigt:
+-----------------------------------------------------------------------------------------------------------------------------
+- Gib mal der Maschine mehr wums
+- An die Zukunft: Wir haben letzten Sonntag an den File strukturen gearbeitet
+- http://www.strawpoll.me/11308847

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Threading;
 using NamedPipeWrapper;
 
-namespace TestTop.Tray
+namespace TestTop.UI
 {
     public class TrayApplication : IDisposable
     {

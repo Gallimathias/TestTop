@@ -14,13 +14,12 @@ namespace TestTop.TestService
 
         public MainService()
         {
-
+            commandManager = new CommandManager();
             server = new NamedPipeServer<string>("testTopPipe");
+
             server.ClientConnected += Server_ClientConnected;
             server.ClientMessage += Server_ClientMessage;
             
-            commandManager = new CommandManager();    
-
         }
         
         private void Server_ClientMessage(NamedPipeConnection<string, string> connection, string message)

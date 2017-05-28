@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using TestTop.Core.WinAPI;
 
-namespace TestTop.Forms
+namespace TestTop.UI
 {
     public class Hotkey
     {

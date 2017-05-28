@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CommandManagementSystem;
+using CommandManagementSystem.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoMaS;
-using CoMaS.Attributes;
 
 namespace TestTop.TestService.Commands
 {
@@ -13,13 +13,13 @@ namespace TestTop.TestService.Commands
     {
         public SwitchCommand() : base()
         {
-            NextFunction = Switch;
+
         }
 
-        private string Switch(string[] arg)
+        public override string Main(string[] arg)
         {
-            RaiseFinishEvent(this, arg);
-            return "";
+            return base.Main(arg);
         }
+     
     }
 }

@@ -57,8 +57,7 @@ namespace TestTop.Core
             }
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
-
-
+            
             if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
             {
                 Dir.Create();
