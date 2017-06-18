@@ -21,6 +21,7 @@ namespace TestTop.UI
 
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Switch", Switch);
+            trayMenu.MenuItems.Add("Screnshot", Screenshot);
             trayMenu.MenuItems.Add("Exit", Exit);
 
 
@@ -31,6 +32,16 @@ namespace TestTop.UI
                 Icon = new Icon(SystemIcons.Application, 40, 40),
                 ContextMenu = trayMenu
             };
+        }
+
+        private void Screenshot(object sender, EventArgs e)
+        {
+            DoStuff();
+        }
+
+        private async void DoStuff()
+        {
+            throw new NotImplementedException();
         }
 
         internal void Switch(object sender, EventArgs e)
