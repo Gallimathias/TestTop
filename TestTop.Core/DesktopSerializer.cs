@@ -9,16 +9,17 @@ using System.Xml.Serialization;
 
 namespace TestTop.Core
 {
-    class DesktopSerializer
+    static class DesktopSerializer
     {
 
         public static void Serialize(Desktop desktop)
         {
+            desktop.DesktopHelper.UpdateIcons();
             using (Stream stream = File.Create(desktop.Dir.Parent.FullName + "\\options.dt"))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    writer.Write(desktop.DesktopHelper.Icons.Length);
+                    writer.Write(desktop.DesktopHelper.Icons.Count);
                     foreach (var item in desktop.DesktopHelper.Icons)
                     {
                         writer.Write(item.Name);

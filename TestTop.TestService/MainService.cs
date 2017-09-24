@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestTop.TestService
 {
-    public class MainService
+    public class MainService : IDisposable
     {
         NamedPipeServer<string> server;
         CommandManager commandManager;
@@ -61,7 +61,13 @@ namespace TestTop.TestService
             server.Start();
         }
 
-        internal void OnStop()
+        //Until it's service
+        //internal void OnStop()
+        //{
+        //    server.Stop();
+        //}
+
+        public void Dispose()
         {
             server.Stop();
         }

@@ -8,6 +8,7 @@ using System.Drawing;
 using TestTop.Core.WinAPI;
 using System.Windows.Forms;
 using TestTop.Core.JsonFiles;
+using System.Collections.Generic;
 
 namespace TestTop.Core
 {
@@ -53,7 +54,7 @@ namespace TestTop.Core
             }
             catch (Exception)
             {
-
+                Dir = new DirectoryInfo($@"D:\Desktops\{Name}\{Name}");
             }
 
             HandleDesktop = createNewDesktop();  //TODO: Problem
@@ -131,9 +132,11 @@ namespace TestTop.Core
 
         public DesktopIni ToIni()
         {
-            var ini = new DesktopIni();
-            ini.Name = Name;
-            ini.Screenshot = @""; //TODO Gute Zeile
+            var ini = new DesktopIni
+            {
+                Name = Name,
+                Screenshot = @"" //TODO Gute Zeile
+            };
             return ini;
         }
 

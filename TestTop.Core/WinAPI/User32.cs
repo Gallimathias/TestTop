@@ -90,6 +90,9 @@ namespace TestTop.Core.WinAPI
         [DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
         public static extern IntPtr GetClassLongPtr64(IntPtr hWnd, GetClassLongPtr nIndex);
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
         [DllImport("user32.dll")]
         public static extern IntPtr GetDesktopWindow();
 
@@ -101,6 +104,8 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetParent(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetShellWindow();
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);

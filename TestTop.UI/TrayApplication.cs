@@ -22,6 +22,8 @@ namespace TestTop.UI
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Switch", Switch);
             trayMenu.MenuItems.Add("Screnshot", Screenshot);
+            trayMenu.MenuItems.Add("Restore Icons", RestoreIcons);
+            trayMenu.MenuItems.Add("Save Desktop", SaveDesktop);
             trayMenu.MenuItems.Add("Exit", Exit);
 
 
@@ -32,6 +34,16 @@ namespace TestTop.UI
                 Icon = new Icon(SystemIcons.Application, 40, 40),
                 ContextMenu = trayMenu
             };
+        }
+
+        private void SaveDesktop(object sender, EventArgs e)
+        {
+            client.PushMessage("SaveDesktop");
+        }
+
+        private void RestoreIcons(object sender, EventArgs e)
+        {
+            client.PushMessage("RestoreIcons");
         }
 
         private void Screenshot(object sender, EventArgs e)

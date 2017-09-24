@@ -69,15 +69,15 @@ namespace TestTop.Core
 
         #endregion
 
+        public List<DesktopIcon> Icons { get; set; }
         private IntPtr desktopHandle = IntPtr.Zero;
-        private List<DesktopIcon> m_Items = new List<DesktopIcon>();
 
         /// <summary>
         /// Füllt die Liste m_Items mit den Icons vom Desktop.
         /// </summary>
         private void CreateDesktopIconList()
         {
-            this.m_Items.Clear();
+            this.Icons.Clear();
 
             int iconCount = this.IconCount;
 
@@ -127,7 +127,7 @@ namespace TestTop.Core
                             Marshal.UnsafeAddrOfPinnedArrayElement(vPoint, 0),
                             Marshal.SizeOf(typeof(Point)), ref vNumberOfBytesRead);
 
-                    this.m_Items.Add(new DesktopIcon(
+                    this.Icons.Add(new DesktopIcon(
                         i, iconName, vPoint[0]));
                 }
             }
@@ -143,25 +143,82 @@ namespace TestTop.Core
         /// </summary>
         public DesktopHelper()
         {
+            Icons = new List<DesktopIcon>();
+            
+            desktopHandle = GetDesktopWindow(DesktopWindow.SysListView32);
+
             // Handle des Desktops ermitteln. Wenn das fehlschlägt, eine
             // Exception werfen.
-            desktopHandle = FindWindow("WorkerW", "");
-            desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SHELLDLL_DefView", null);
-            desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
-            if (desktopHandle == IntPtr.Zero)
-            {
-                desktopHandle = FindWindow("Progman", "Program Manager");
-                desktopHandle = new IntPtr((desktopHandle.ToInt32() + 2));
-                desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
-            }
+            //desktopHandle = FindWindow("WorkerW", "");
+            //desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SHELLDLL_DefView", null);
+            //desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
+            //if (desktopHandle == IntPtr.Zero)
+            //{
+            //    desktopHandle = FindWindow("Progman", "Program Manager");
+            //    desktopHandle = new IntPtr((desktopHandle.ToInt32() + 2));
+            //    desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
+            //}
 
-            if (desktopHandle == IntPtr.Zero)
-                desktopHandle = User32.GetDesktopWindow();
+            //if (desktopHandle == IntPtr.Zero)
+            //    desktopHandle = new IntPtr(0x0001018A);
+
+                //desktopHandle = User32.GetDesktopWindow();
 
             if (desktopHandle.Equals(IntPtr.Zero))
                 throw new ArgumentNullException("DesktopHandle");
             else
                 CreateDesktopIconList();
+        }
+
+        public enum DesktopWindow
+        {
+            ProgMan,
+            SHELLDLL_DefViewParent,
+            SHELLDLL_DefView,
+            SysListView32
+        }
+
+        public static IntPtr GetDesktopWindow(DesktopWindow desktopWindow)
+        {
+            IntPtr _ProgMan = User32.GetShellWindow();
+            IntPtr _SHELLDLL_DefViewParent = _ProgMan;
+            IntPtr _SHELLDLL_DefView = FindWindowEx(_ProgMan, IntPtr.Zero, "SHELLDLL_DefView", null);
+            IntPtr _SysListView32 = FindWindowEx(_SHELLDLL_DefView, IntPtr.Zero, "SysListView32", "FolderView");
+
+            if (_SHELLDLL_DefView == IntPtr.Zero)
+            {
+                User32.EnumWindows((hwnd, lParam) =>
+                {
+                    StringBuilder ClassName = new StringBuilder(256);
+                    User32.GetClassName(hwnd, ClassName, ClassName.Length);
+                    if (ClassName.ToString() == "WorkerW")
+                    {
+                        IntPtr child = FindWindowEx(hwnd, IntPtr.Zero, "SHELLDLL_DefView", null);
+                        if (child != IntPtr.Zero)
+                        {
+                            _SHELLDLL_DefViewParent = hwnd;
+                            _SHELLDLL_DefView = child;
+                            _SysListView32 = FindWindowEx(child, IntPtr.Zero, "SysListView32", "FolderView"); ;
+                            return false;
+                        }
+                    }
+                    return true;
+                }, IntPtr.Zero);
+            }
+
+            switch (desktopWindow)
+            {
+                case DesktopWindow.ProgMan:
+                    return _ProgMan;
+                case DesktopWindow.SHELLDLL_DefViewParent:
+                    return _SHELLDLL_DefViewParent;
+                case DesktopWindow.SHELLDLL_DefView:
+                    return _SHELLDLL_DefView;
+                case DesktopWindow.SysListView32:
+                    return _SysListView32;
+                default:
+                    return IntPtr.Zero;
+            }
         }
 
         /// <summary>
@@ -170,6 +227,20 @@ namespace TestTop.Core
         public void UpdateIcons()
         {
             this.CreateDesktopIconList();
+        }
+
+        public void RestoreIconPositions()
+        {
+            DesktopIcon[] backupIcons = new DesktopIcon[Icons.Count];
+            Icons.CopyTo(backupIcons);
+
+            UpdateIcons();
+            foreach (var item in Icons)
+            {
+                var icon = backupIcons.FirstOrDefault(x => x.Name == item.Name);
+                if (icon != null)
+                    SetIconPosition(item, icon.Location.X, icon.Location.Y);
+            }
         }
 
         /// <summary>
@@ -199,14 +270,7 @@ namespace TestTop.Core
                 icon.Location = newLocation;
             }
         }
-
-        /// <summary>
-        /// Ruft die Icons ab, die sich auf dem Desktop befinden.
-        /// </summary>
-        public DesktopIcon[] Icons
-        {
-            get { return this.m_Items.ToArray(); }
-        }
+        
 
         /// <summary>
         /// Ruft die Anzahl der Icons ab, die sich auf dem

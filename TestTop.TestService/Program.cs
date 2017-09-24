@@ -12,12 +12,10 @@ namespace TestTop.TestService
     {
         static void Main(string[] args)
         {
-
             var service = new MainService();
             var handle = new ManualResetEvent(false);
             service.OnStart(args);
-            Console.ReadKey();
-            service.OnStop();
+            handle.WaitOne();
         }
     }
 }

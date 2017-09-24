@@ -10,28 +10,29 @@ using TestTop.Core.WinAPI;
 
 namespace TestTop.TestService
 {
-    class DesktopManager
+    static class DesktopManager
     {
-        public List<Desktop> Desktops { get; set; }
-        public IntPtr MainDesktopHandle { get; private set; }
-        public Desktop CurrentDesktop { get; private set; }
+        public static List<Desktop> Desktops { get; set; }
+        public static IntPtr MainDesktopHandle { get; private set; }
+        public static Desktop CurrentDesktop { get; private set; }
 
-        private Desktop startDesktop;
+        private static Desktop startDesktop;
 
-        public DesktopManager()
+        static DesktopManager()
         {
             Desktops = new List<Desktop>();
 
             MainDesktopHandle = User32.GetDesktopWindow();
             startDesktop = new Desktop("Default", MainDesktopHandle, MainDesktopHandle);
             CurrentDesktop = startDesktop;
-            File.WriteAllText(@"C:\Users\Public\Desktops\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
+            File.WriteAllText(@"C:\Users\Public\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
 
             GetDesktops();
-
         }
 
-        private void Switch(string name)
+        public static void DoStuff() { }
+
+        private static void Switch(string name)
         {
             startDesktop.Save();
 
@@ -54,20 +55,20 @@ namespace TestTop.TestService
 
         }
 
-        public void GetDesktops()
+        public static void GetDesktops()
         {
             IntPtr windowStation = User32.GetProcessWindowStation();
             bool result = User32.EnumDesktops(windowStation, DesktopEnumProc, IntPtr.Zero);
         }
 
-        private bool DesktopEnumProc(string lpszDesktop, IntPtr lParam)
+        private static bool DesktopEnumProc(string lpszDesktop, IntPtr lParam)
         {
             Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle)); ;
             return true;
         }
 
 
-        public void SwitchBack() => Switch("Default");
+        public static void SwitchBack() => Switch("Default");
 
     }
 }
