@@ -22,7 +22,7 @@ namespace TestTop.TestService
         {
             Desktops = new List<Desktop>();
 
-            MainDesktopHandle = User32.GetDesktopWindow();
+            MainDesktopHandle = User32.GetDesktopWindow(); //TODO Use our way of Handlefinding not the microsoft stuff
             startDesktop = new Desktop("Default", MainDesktopHandle, MainDesktopHandle);
             CurrentDesktop = startDesktop;
             File.WriteAllText(@"C:\Users\Public\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
@@ -32,7 +32,7 @@ namespace TestTop.TestService
 
         public static void DoStuff() { }
 
-        private static void Switch(string name)
+        public static void Switch(string name)
         {
             startDesktop.Save();
 
@@ -50,8 +50,11 @@ namespace TestTop.TestService
 
             desk.Show();
             //if( Process.GetProcessesByName("explorer.exe").FirstOrDefault() == null)
-            desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
             CurrentDesktop = desk;
+            if (MainService.Clients.Contains(name))
+                return;
+            desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
+            desk.CreateProcess(@"..\..\..\\TestTop.UI\bin\Debug\TestTop.UI.exe");
 
         }
 
