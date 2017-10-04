@@ -144,8 +144,8 @@ namespace TestTop.Core
         public DesktopHelper()
         {
             Icons = new List<DesktopIcon>();
-            
-            desktopHandle = GetDesktopWindow(DesktopWindow.SysListView32);
+
+            desktopHandle = GetWorkerWWindow();// GetDesktopWindow(DesktopWindow.SysListView32);
 
             // Handle des Desktops ermitteln. Wenn das fehlschlägt, eine
             // Exception werfen.
@@ -219,6 +219,42 @@ namespace TestTop.Core
                 default:
                     return IntPtr.Zero;
             }
+        }
+
+        public static IntPtr GetWorkerWWindow()
+        {
+            IntPtr hDesktopListView = IntPtr.Zero;
+            IntPtr hWorkerW = IntPtr.Zero;
+
+            IntPtr hProgman = FindWindow(("Progman"), "");
+            IntPtr hDesktopWnd = GetDesktopWindow(DesktopWindow.SysListView32);
+            if (hDesktopWnd != IntPtr.Zero)
+                return hDesktopWnd;
+            // If the main Program Manager window is found
+            else
+            {
+                // Get and load the main List view window containing the icons (found using Spy++).
+                IntPtr hShellViewWin = FindWindowEx(hProgman, IntPtr.Zero, ("SHELLDLL_DefView"), "");
+                if (hShellViewWin != IntPtr.Zero)
+                    hDesktopListView = FindWindowEx(hShellViewWin, IntPtr.Zero, ("SysListView32"), "");
+                else
+                // When this fails (happens in Windows-7 when picture rotation is turned ON), then look for the WorkerW windows list to get the
+                // correct desktop list handle.
+                // As there can be multiple WorkerW windows, so iterate through all to get the correct one
+                {
+                    do
+                    {
+                        hWorkerW = FindWindowEx(hDesktopWnd, hWorkerW, ("WorkerW"), "");
+                        hShellViewWin = FindWindowEx(hWorkerW, IntPtr.Zero, ("SHELLDLL_DefView"), "");
+                    } while (hShellViewWin == IntPtr.Zero && hWorkerW != IntPtr.Zero);
+                    hDesktopListView = hWorkerW;
+                }
+
+                // Get the ListView control
+                //hDesktopListView = FindWindowEx(hShellViewWin, IntPtr.Zero, ("SysListView32"), "");
+            }
+
+            return hDesktopListView;
         }
 
         /// <summary>
