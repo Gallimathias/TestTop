@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TestTop.Core;
 using TestTop.Core.WinAPI;
 
@@ -22,8 +23,8 @@ namespace TestTop.TestService
         {
             Desktops = new List<Desktop>();
 
-            MainDesktopHandle = User32.GetDesktopWindow(); //TODO Use our way of Handlefinding not the microsoft stuff
             startDesktop = new Desktop("Default", MainDesktopHandle, MainDesktopHandle);
+            MainDesktopHandle = User32.GetDesktopWindow();
             CurrentDesktop = startDesktop;
             File.WriteAllText(@"C:\Users\Public\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
 
@@ -45,17 +46,24 @@ namespace TestTop.TestService
             {
                 desk = new Desktop(name, MainDesktopHandle);
                 Desktops.Add(desk);
-                GetDesktops();
             }
-
+            //var list = Process.GetProcesses().Where(x => x.ProcessName.ToLower().Contains("explorer")).ToList();
+            //list.ForEach(x => x.Kill());
             desk.Show();
-            //if( Process.GetProcessesByName("explorer.exe").FirstOrDefault() == null)
             CurrentDesktop = desk;
+
             if (MainService.Clients.Contains(name))
                 return;
             desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
             desk.CreateProcess(@"..\..\..\\TestTop.UI\bin\Debug\TestTop.UI.exe");
 
+        }
+
+        public static void NewDesktopSwitch(string name, string handle)
+        {
+            var desk = Desktops.FirstOrDefault(x => x.Name == name);
+            desk.DesktopHelper.DesktopHandle = new IntPtr(int.Parse(handle));
+            Task.Run(() => { MessageBox.Show(handle.ToString()); });
         }
 
         public static void GetDesktops()

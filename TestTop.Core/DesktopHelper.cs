@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using TestTop.Core.WinAPI;
+using System.Windows.Forms;
 
 namespace TestTop.Core
 {
@@ -70,7 +71,7 @@ namespace TestTop.Core
         #endregion
 
         public List<DesktopIcon> Icons { get; set; }
-        private IntPtr desktopHandle = IntPtr.Zero;
+        public IntPtr DesktopHandle = IntPtr.Zero;
 
         /// <summary>
         /// Füllt die Liste m_Items mit den Icons vom Desktop.
@@ -81,7 +82,7 @@ namespace TestTop.Core
 
             int iconCount = this.IconCount;
 
-            GetWindowThreadProcessId(this.desktopHandle, out uint vProcessId);
+            GetWindowThreadProcessId(this.DesktopHandle, out uint vProcessId);
 
             IntPtr vProcess = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_READ |
                     PROCESS_VM_WRITE, false, vProcessId);
@@ -108,7 +109,7 @@ namespace TestTop.Core
                             Marshal.UnsafeAddrOfPinnedArrayElement(vItem, 0),
                             Marshal.SizeOf(typeof(LVITEM)), ref vNumberOfBytesRead);
 
-                    SendMessage(this.desktopHandle, LVM_GETITEMW, i, vPointer.ToInt32());
+                    SendMessage(this.DesktopHandle, LVM_GETITEMW, i, vPointer.ToInt32());
 
                     ReadProcessMemory(vProcess,
                             (IntPtr)((int)vPointer + Marshal.SizeOf(typeof(LVITEM))),
@@ -120,7 +121,7 @@ namespace TestTop.Core
                             (int)vNumberOfBytesRead);
                     iconName = iconName.Substring(0, iconName.IndexOf('\0'));
 
-                    SendMessage(this.desktopHandle, LVM_GETITEMPOSITION, i, vPointer.ToInt32());
+                    SendMessage(this.DesktopHandle, LVM_GETITEMPOSITION, i, vPointer.ToInt32());
 
                     Point[] vPoint = new Point[1];
                     ReadProcessMemory(vProcess, vPointer,
@@ -145,26 +146,9 @@ namespace TestTop.Core
         {
             Icons = new List<DesktopIcon>();
 
-            desktopHandle = GetWorkerWWindow();// GetDesktopWindow(DesktopWindow.SysListView32);
+            DesktopHandle = GetWorkerWWindow();
 
-            // Handle des Desktops ermitteln. Wenn das fehlschlägt, eine
-            // Exception werfen.
-            //desktopHandle = FindWindow("WorkerW", "");
-            //desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SHELLDLL_DefView", null);
-            //desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
-            //if (desktopHandle == IntPtr.Zero)
-            //{
-            //    desktopHandle = FindWindow("Progman", "Program Manager");
-            //    desktopHandle = new IntPtr((desktopHandle.ToInt32() + 2));
-            //    desktopHandle = FindWindowEx(desktopHandle, IntPtr.Zero, "SysListView32", "FolderView");
-            //}
-
-            //if (desktopHandle == IntPtr.Zero)
-            //    desktopHandle = new IntPtr(0x0001018A);
-
-                //desktopHandle = User32.GetDesktopWindow();
-
-            if (desktopHandle.Equals(IntPtr.Zero))
+            if (DesktopHandle.Equals(IntPtr.Zero))
                 throw new ArgumentNullException("DesktopHandle");
             else
                 CreateDesktopIconList();
@@ -184,27 +168,6 @@ namespace TestTop.Core
             IntPtr _SHELLDLL_DefViewParent = _ProgMan;
             IntPtr _SHELLDLL_DefView = FindWindowEx(_ProgMan, IntPtr.Zero, "SHELLDLL_DefView", null);
             IntPtr _SysListView32 = FindWindowEx(_SHELLDLL_DefView, IntPtr.Zero, "SysListView32", "FolderView");
-
-            if (_SHELLDLL_DefView == IntPtr.Zero)
-            {
-                User32.EnumWindows((hwnd, lParam) =>
-                {
-                    StringBuilder ClassName = new StringBuilder(256);
-                    User32.GetClassName(hwnd, ClassName, ClassName.Length);
-                    if (ClassName.ToString() == "WorkerW")
-                    {
-                        IntPtr child = FindWindowEx(hwnd, IntPtr.Zero, "SHELLDLL_DefView", null);
-                        if (child != IntPtr.Zero)
-                        {
-                            _SHELLDLL_DefViewParent = hwnd;
-                            _SHELLDLL_DefView = child;
-                            _SysListView32 = FindWindowEx(child, IntPtr.Zero, "SysListView32", "FolderView"); ;
-                            return false;
-                        }
-                    }
-                    return true;
-                }, IntPtr.Zero);
-            }
 
             switch (desktopWindow)
             {
@@ -230,28 +193,22 @@ namespace TestTop.Core
             IntPtr hDesktopWnd = GetDesktopWindow(DesktopWindow.SysListView32);
             if (hDesktopWnd != IntPtr.Zero)
                 return hDesktopWnd;
-            // If the main Program Manager window is found
             else
             {
-                // Get and load the main List view window containing the icons (found using Spy++).
                 IntPtr hShellViewWin = FindWindowEx(hProgman, IntPtr.Zero, ("SHELLDLL_DefView"), "");
                 if (hShellViewWin != IntPtr.Zero)
                     hDesktopListView = FindWindowEx(hShellViewWin, IntPtr.Zero, ("SysListView32"), "");
                 else
-                // When this fails (happens in Windows-7 when picture rotation is turned ON), then look for the WorkerW windows list to get the
-                // correct desktop list handle.
-                // As there can be multiple WorkerW windows, so iterate through all to get the correct one
                 {
                     do
                     {
                         hWorkerW = FindWindowEx(hDesktopWnd, hWorkerW, ("WorkerW"), "");
                         hShellViewWin = FindWindowEx(hWorkerW, IntPtr.Zero, ("SHELLDLL_DefView"), "");
+                        hShellViewWin = FindWindowEx(hShellViewWin, IntPtr.Zero, ("SysListView32"), "FolderView");
                     } while (hShellViewWin == IntPtr.Zero && hWorkerW != IntPtr.Zero);
-                    hDesktopListView = hWorkerW;
+                    hDesktopListView = hShellViewWin;
                 }
-
-                // Get the ListView control
-                //hDesktopListView = FindWindowEx(hShellViewWin, IntPtr.Zero, ("SysListView32"), "");
+                
             }
 
             return hDesktopListView;
@@ -300,7 +257,7 @@ namespace TestTop.Core
             int posX = newLocation.X;
             int posY = newLocation.Y;
 
-            if (SendMessage(this.desktopHandle, LVM_SETITEMPOSITION,
+            if (SendMessage(this.DesktopHandle, LVM_SETITEMPOSITION,
                 icon.Index, posY * 65536 + posX) == 1)
             {
                 icon.Location = newLocation;
@@ -316,7 +273,7 @@ namespace TestTop.Core
         {
             get
             {
-                return SendMessage(this.desktopHandle, LVM_GETITEMCOUNT, 0, 0);
+                return SendMessage(this.DesktopHandle, LVM_GETITEMCOUNT, 0, 0);
             }
         }
     }

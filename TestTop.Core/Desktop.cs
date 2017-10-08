@@ -79,6 +79,10 @@ namespace TestTop.Core
         {
 
         }
+        public Desktop(string name, string desktopHandle) : this(name, IntPtr.Zero, Graphics.FromImage(new Bitmap(1, 1)))
+        {
+            DesktopHelper.DesktopHandle = new IntPtr(int.Parse(desktopHandle));
+        }
         public Desktop(string name, IntPtr normalDesktop, IntPtr DesktopHandle) : this(name, normalDesktop, Graphics.FromImage(new Bitmap(1, 1)), DesktopHandle)
         {
         }

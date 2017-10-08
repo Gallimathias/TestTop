@@ -29,7 +29,13 @@ namespace TestTop.TestService.Commands
         [Command("Switch")]
         public static string SwitchDesktop(string[] arg)
         {
-            DesktopManager.Switch("test");
+            DesktopManager.Switch("test4");
+            return "";
+        }
+        [Command("NewDesktopSwitch")]
+        public static string NewDesktopSwitch(string[] arg)
+        {
+            DesktopManager.NewDesktopSwitch(arg[0], arg[1]);
             return "";
         }
         [Command("SwitchBack")]

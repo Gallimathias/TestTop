@@ -215,7 +215,7 @@ namespace TestTop.Core.WinAPI
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowsHookEx(HookType hook, HookProc callback, IntPtr hMod, uint dwThreadId);
 
-        [DllImport("user32")]
+        [DllImport("user32.dll")]
         public static extern int SetWindowLong(IntPtr hWnd, int index, int dwNewLong);
 
         [DllImport("user32.dll")]

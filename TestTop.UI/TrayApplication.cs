@@ -44,7 +44,11 @@ namespace TestTop.UI
         private void Client_ServerMessage(NamedPipeConnection<string[], string[]> connection, string[] message)
         {
             if (message[0] == "CurrentDesktopName" && string.IsNullOrWhiteSpace(name))
+            {
                 name = message[1];
+                var dh = new DesktopHelper();
+                client.PushMessage(new string[] { "NewDesktopSwitch", name, dh.DesktopHandle.ToString() });
+            }
         }
 
         private void Client_Connected(NamedPipeConnection<string[], string[]> connection)
@@ -66,6 +70,7 @@ namespace TestTop.UI
         private void RestoreIcons(object sender, EventArgs e)
         {
             client.PushMessage(new string[] { "RestoreIcons", name });
+            //desktop.DesktopHelper.RestoreIconPositions();
         }
 
         private void Screenshot(object sender, EventArgs e)
