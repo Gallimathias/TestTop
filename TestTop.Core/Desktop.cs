@@ -18,10 +18,7 @@ namespace TestTop.Core
         public Image Image { get; private set; }
         public DirectoryInfo Dir
         {
-            get
-            {
-                return dir;
-            }
+            get => dir;
             set
             {
                 if (value.Name == "Default")
@@ -36,7 +33,6 @@ namespace TestTop.Core
         private IntPtr normalDesktop;
         private Graphics graphics;
         private DirectoryInfo dir;
-        private IntPtr mainDesktopHandle;
 
         public Desktop(string name, IntPtr normalDesktop, Graphics graphics)
         {
@@ -54,12 +50,12 @@ namespace TestTop.Core
             }
             catch (Exception)
             {
-                Dir = new DirectoryInfo($@"D:\Desktops\{Name}\{Name}");
+                Dir = new DirectoryInfo(Path.Combine($@"D:\Desktops", Name, Name));
             }
 
-            HandleDesktop = createNewDesktop();  //TODO: Problem
-            
-            if (!File.Exists(Dir.Parent.FullName + "\\options.dt"))
+            HandleDesktop = CreateNewDesktop();  //TODO: Problem
+
+            if (!File.Exists(Path.Combine(Dir.Parent.FullName, "options.dt")))
             {
                 Dir.Create();
                 Save();
@@ -79,7 +75,7 @@ namespace TestTop.Core
         {
 
         }
-        public Desktop(string name, string desktopHandle) : this(name, IntPtr.Zero, Graphics.FromImage(new Bitmap(1, 1)))
+        public Desktop(string name, string desktopHandle) : this(name, IntPtr.Zero)
         {
             DesktopHelper.DesktopHandle = new IntPtr(int.Parse(desktopHandle));
         }
@@ -89,8 +85,12 @@ namespace TestTop.Core
 
         public void Delete()
         {
-            RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            string value = (string)userKey?.GetValue("Desktop");
+            RegistryKey userKey = Registry
+                .CurrentUser
+                .OpenSubKey(
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders",
+                    RegistryKeyPermissionCheck.ReadWriteSubTree);
+
             userKey?.SetValue("Desktop", @"%USERPROFILE%\Desktop", RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(normalDesktop);
@@ -103,8 +103,12 @@ namespace TestTop.Core
 
         public void Show()
         {
-            RegistryKey userKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            //string value = (string)userKey?.GetValue("Desktop");
+            RegistryKey userKey = Registry
+                .CurrentUser
+                .OpenSubKey(
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", 
+                    RegistryKeyPermissionCheck.ReadWriteSubTree);
+
             userKey?.SetValue("Desktop", Dir.FullName, RegistryValueKind.ExpandString);
 
             User32.SetThreadDesktop(HandleDesktop);
@@ -165,7 +169,7 @@ namespace TestTop.Core
             }
         }
 
-        private IntPtr createNewDesktop() =>
+        private IntPtr CreateNewDesktop() =>
           User32.CreateDesktop(Name, IntPtr.Zero, IntPtr.Zero, 0, (long)DesktopAcessMask.GENERIC_ALL, IntPtr.Zero);
     }
 }

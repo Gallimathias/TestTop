@@ -9,9 +9,9 @@ namespace TestTop.Core.WinAPI
     /// A class that exposes the various methods and types from User32.dll required by SharpDesktop
     /// Refer to http://www.pinvoke.net for details
     /// </summary>
-    public class User32
+    public static class User32
     {
-
+        #region A - D
         [DllImport("user32.dll")]
         public static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -21,11 +21,6 @@ namespace TestTop.Core.WinAPI
         [DllImport("user32.dll")]
         public static extern bool CloseDesktop(IntPtr hDesktop);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetThreadDesktop(int dwThreadId);
-
-        [DllImport("kernel32.dll")]
-        public static extern int GetCurrentThreadId();
         [DllImport("user32.dll")]
         public static extern IntPtr CreateDesktop(string lpszDesktop,
                                                    IntPtr lpszDevice,
@@ -63,7 +58,9 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll")]
         public static extern bool DrawMenuBar(IntPtr hWnd);
+        #endregion A - D
 
+        #region E - F
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
@@ -76,13 +73,23 @@ namespace TestTop.Core.WinAPI
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
-        public static IntPtr GetClassLongPtr(IntPtr hWnd, GetClassLongPtr nIndex)
-        {
-            if (IntPtr.Size == 8)
-                return GetClassLongPtr64(hWnd, nIndex);
-            else
-                return new IntPtr(GetClassLongPtr32(hWnd, nIndex));
-        }
+        [DllImport("user32.dll")]
+        public static extern bool EnumDesktops(IntPtr hwinsta, EnumDesktopProc lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string className, string windowText);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindowEx(IntPtr hwndParent,
+               IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+        #endregion E - F
+
+        #region G
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetThreadDesktop(int dwThreadId);
+
+        [DllImport("kernel32.dll")]
+        public static extern int GetCurrentThreadId();
 
         [DllImport("user32.dll", EntryPoint = "GetClassLong")]
         public static extern uint GetClassLongPtr32(IntPtr hWnd, GetClassLongPtr nIndex);
@@ -114,21 +121,11 @@ namespace TestTop.Core.WinAPI
         public static extern IntPtr GetWindow(IntPtr hWnd, GetWindowCmd uCmd);
 
         [DllImport("user32.dll")]
-        public static extern bool EnumDesktops(IntPtr hwinsta, EnumDesktopProc lpEnumFunc, IntPtr lParam);
-
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd,
+                out uint dwProcessId);
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetProcessWindowStation();
-
-        // This static method is required because legacy OSes do not support
-        // GetWindowLongPtr
-        public static IntPtr GetWindowLongPtr(IntPtr hWnd, GWL nIndex)
-        {
-            if (IntPtr.Size == 8)
-                return GetWindowLongPtr64(hWnd, (int)nIndex);
-            else
-                return new IntPtr(GetWindowLong32(hWnd, (int)nIndex));
-        }
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
         private static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
@@ -148,7 +145,16 @@ namespace TestTop.Core.WinAPI
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern int GetWindowTextLength(IntPtr hWnd);
 
-        [DllImport("user32", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern short GetKeyState(int virtualKeyCode);
+        /*0x0000 - Not pressed, not toggled
+          0x8000 - Pressed, not toggled
+          0x0001 - Not pressed, toggled
+          0x8001 - Pressed, toggled*/
+        #endregion G
+
+        #region H - I
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool InsertMenu(IntPtr hmenu, uint position, uint flags,
                uint item_id, [MarshalAs(UnmanagedType.LPTStr)]string item_text);
 
@@ -169,6 +175,11 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll")]
         public static extern bool IsZoomed(IntPtr hWnd);
+        #endregion H - I
+
+        #region M - R
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
         [DllImport("user32.dll")]
         public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth,
@@ -185,9 +196,11 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll")]
         public static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+        #endregion M - R
 
+        #region S
         [DllImport("user32.dll")]
-        public static extern uint SendMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
+        public static extern uint SendMessage(IntPtr hWnd, uint msg, uint wParam, bool lParam);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessageTimeout(IntPtr windowHandle,
@@ -227,23 +240,35 @@ namespace TestTop.Core.WinAPI
 
         [DllImport("user32.dll")]
         public static extern bool SwitchDesktop(IntPtr hDesktop);
+        #endregion S
 
+        #region T - Z
         [DllImport("user32.dll")]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [DllImport("user32.dll")]
         public static extern int UnhookWindowsHookEx(IntPtr hhook);
+        #endregion U - Z
 
-        [DllImport("user32.dll")]
-        public static extern int FindWindow(string className, string windowText);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-        public static extern short GetKeyState(int virtualKeyCode);
-        /*0x0000 - Not pressed, not toggled
-          0x8000 - Pressed, not toggled
-          0x0001 - Not pressed, toggled
-          0x8001 - Pressed, toggled*/
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MapVirtualKey(uint uCode, uint uMapType);
+        #region HelpMethods
+        public static IntPtr GetClassLongPtr(IntPtr hWnd, GetClassLongPtr nIndex)
+        {
+            if (IntPtr.Size == 8)
+                return GetClassLongPtr64(hWnd, nIndex);
+            else
+                return new IntPtr(GetClassLongPtr32(hWnd, nIndex));
+        }
+
+        // This static method is required because legacy OSes do not support
+        // GetWindowLongPtr
+        public static IntPtr GetWindowLongPtr(IntPtr hWnd, GWL nIndex)
+        {
+            if (IntPtr.Size == 8)
+                return GetWindowLongPtr64(hWnd, (int)nIndex);
+            else
+                return new IntPtr(GetWindowLong32(hWnd, (int)nIndex));
+        }
+        #endregion HelpMethods
     }
 }

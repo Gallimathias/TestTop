@@ -25,6 +25,7 @@ namespace TestTop.Core.WinAPI
         public POINTAPI ptMaxPosition;
         public RECT rcNormalPosition;
     }
+
     public struct STARTUPINFO
     {
         public Int32 cb;
@@ -46,6 +47,7 @@ namespace TestTop.Core.WinAPI
         public IntPtr hStdOutput;
         public IntPtr hStdError;
     }
+
     public struct PROCESS_INFORMATION
     {
         public IntPtr hProcess;
@@ -53,10 +55,28 @@ namespace TestTop.Core.WinAPI
         public int dwProcessId;
         public int dwThreadId;
     }
+
     public struct SECURITY_ATTRIBUTES
     {
         public int nLength;
         public IntPtr lpSecurityDescriptor;
         public int bInheritHandle;
+    }
+
+    public struct LVITEM
+    {
+        public int mask;
+        public int iItem;
+        public int iSubItem;
+        public int state;
+        public int stateMask;
+        public IntPtr pszText; // string
+        public int cchTextMax;
+        public int iImage;
+        public IntPtr lParam;
+        public int iIndent;
+        public int iGroupId;
+        public int cColumns;
+        public IntPtr puColumns;
     }
 }

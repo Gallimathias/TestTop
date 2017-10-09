@@ -98,6 +98,16 @@ namespace TestTop.Core.WinAPI
 
     #endregion
 
+    #region KeyModifier
+    [Flags]
+    public enum KeyModifier : int
+    {
+        MOD_CONTROL = 0x0002,
+        MOD_SHIFT = 0x0004,
+        WM_HOTKEY = 0x0312
+    }
+    #endregion KeyModifier
+
     #region MenuItemInfoMask
 
     [Flags]
@@ -265,10 +275,25 @@ namespace TestTop.Core.WinAPI
 
     #endregion
 
-    public enum KeyModifier : int
+    #region WindowsMessage
+    [Flags]
+    public enum WindowsMessage : uint
     {
-        MOD_CONTROL = 0x0002,
-        MOD_SHIFT = 0x0004,
-        WM_HOTKEY = 0x0312
+        LVM_FIRST = 0x1000,
+        LVM_GETITEMCOUNT = 0x1000 + 4,
+        LVM_GETITEMW = 0x1000 + 75,
+        LVM_GETITEMPOSITION = 0x1000 + 16,
+        LVM_SETITEMPOSITION = 0x1000 + 15,
+        PROCESS_VM_OPERATION = 0x0008,
+        PROCESS_VM_READ = 0x0010,
+        PROCESS_VM_WRITE = 0x0020,
+        MEM_COMMIT = 0x1000,
+        MEM_RELEASE = 0x8000,
+        MEM_RESERVE = 0x2000,
+        PAGE_READWRITE = 4,
+        LVIF_TEXT = 0x0001,
+
     }
+    #endregion WindowsMessage
+    
 }

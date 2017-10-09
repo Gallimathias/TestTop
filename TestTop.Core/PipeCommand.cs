@@ -12,7 +12,7 @@ namespace TestTop.Core
         public string[] Args { get; set; }
 
         public PipeCommand(string command) => Command = command;
-        public PipeCommand(string command, params string[] args) : this(command)=> Args = args;
+        public PipeCommand(string command, params string[] args) : this(command) => Args = args;
 
     }
 }

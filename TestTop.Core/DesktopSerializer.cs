@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,8 @@ namespace TestTop.Core
         public static void Serialize(Desktop desktop)
         {
             desktop.DesktopHelper.UpdateIcons();
-            using (Stream stream = File.Create(desktop.Dir.Parent.FullName + "\\options.dt"))
+
+            using (Stream stream = File.Create(Path.Combine(desktop.Dir.Parent.FullName, "options.dt")))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
@@ -29,15 +31,18 @@ namespace TestTop.Core
                 }
             }
 
-            FileManager.SerializeDesktopIni(desktop.ToIni(), $@"{desktop.Dir.Parent.FullName}\{desktop.Name}.ini");
+            FileManager.SerializeDesktopIni(desktop.ToIni(),
+                Path.Combine(desktop.Dir.Parent.FullName, $@"{desktop.Name}.ini"));
         }
 
         public static void DeSerializer(Desktop desktop)
         {
             List<DesktopIcon> items = new List<DesktopIcon>();
+
             foreach (var item in desktop.DesktopHelper.Icons)
                 items.Add(item);
-            using (Stream stream = File.OpenRead(desktop.Dir.Parent.FullName + "\\options.dt"))
+
+            using (Stream stream = File.OpenRead(Path.Combine(desktop.Dir.Parent.FullName, "options.dt")))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
@@ -45,11 +50,12 @@ namespace TestTop.Core
                     for (int i = 0; i < count; i++)
                     {
                         string key = reader.ReadString();
-                        int x = reader.ReadInt32();
-                        int y = reader.ReadInt32();
-                        var icon = items.FirstOrDefault(v => v.Name == key); 
-                        if (icon != null)
-                            desktop.DesktopHelper.SetIconPosition(icon, new System.Drawing.Point(x, y));
+                        var icon = items.FirstOrDefault(v => v.Name == key);
+                        if (icon == null)
+                            reader.BaseStream.Position += 8;
+                        
+                        desktop.DesktopHelper.SetIconPosition(icon, 
+                            new Point(reader.ReadInt32(), reader.ReadInt32()));
                     }
                 }
             }

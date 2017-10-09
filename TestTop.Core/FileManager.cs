@@ -13,13 +13,13 @@ namespace TestTop.Core
     {
         public static void SerializeMainIni(MainIni mainIni, string path) =>
             File.WriteAllText(path, JsonConvert.SerializeObject(mainIni));
-        
+
+        public static void SerializeDesktopIni(DesktopIni desktopIni, string path) =>
+           File.WriteAllText(path, JsonConvert.SerializeObject(desktopIni));
+
         public static MainIni DeserializeMainIni(string path) =>
             JsonConvert.DeserializeObject<MainIni>(File.ReadAllText(path));
 
-        public static void SerializeDesktopIni(DesktopIni desktopIni, string path) =>
-            File.WriteAllText(path, JsonConvert.SerializeObject(desktopIni));
-        
         public static DesktopIni DeserializeDesktopIni(string path) =>
             JsonConvert.DeserializeObject<DesktopIni>(File.ReadAllText(path));
     }

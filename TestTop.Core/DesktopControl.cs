@@ -13,7 +13,7 @@ namespace TestTop.Core
     public partial class DesktopControl : UserControl
     {
         public DesktopHelper DesktopHelper { get; private set; }
-        Dictionary<string, Image> screenshots;
+        private Dictionary<string, Image> screenshots;
 
 
         public DesktopControl()
@@ -25,7 +25,7 @@ namespace TestTop.Core
 
         public void Add(string desktopName, Image image)
         {
-            if(!screenshots.ContainsKey(desktopName))
+            if (!screenshots.ContainsKey(desktopName))
                 screenshots.Add(desktopName, image);
 
             screenshots[desktopName] = image;
@@ -40,7 +40,7 @@ namespace TestTop.Core
             Font f = new Font(FontFamily.GenericMonospace, 30f, FontStyle.Bold);
             int x = 0, y = 0, maxHeight = 0;
 
-           foreach (var screenshot in screenshots)
+            foreach (var screenshot in screenshots)
             {
                 Image image = screenshot.Value;
                 maxHeight = Math.Max(image.Height, maxHeight);
@@ -55,7 +55,7 @@ namespace TestTop.Core
                 e.Graphics.DrawString(screenshot.Key, f, Brushes.Red, new Rectangle(x, y, image.Width, image.Height));
 
                 x += image.Width + 5;
-                
+
             }
         }
 
