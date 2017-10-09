@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NamedPipeWrapper.Threading
 {
+    internal delegate void WorkerSucceededEventHandler();
+    internal delegate void WorkerExceptionEventHandler(Exception exception);
+
     class Worker
     {
         private readonly TaskScheduler _callbackThread;
@@ -40,7 +43,7 @@ namespace NamedPipeWrapper.Threading
 
         private void DoWorkImpl(object oAction)
         {
-            var action = (Action) oAction;
+            var action = (Action)oAction;
             try
             {
                 action();
@@ -52,17 +55,11 @@ namespace NamedPipeWrapper.Threading
             }
         }
 
-        private void Succeed()
-        {
-            if (Succeeded != null)
-                Succeeded();
-        }
+        private void Succeed() => Succeeded?.Invoke();
 
-        private void Fail(Exception exception)
-        {
-            if (Error != null)
-                Error(exception);
-        }
+
+        private void Fail(Exception exception) => Error?.Invoke(exception);
+
 
         private void Callback(Action action)
         {
@@ -70,6 +67,5 @@ namespace NamedPipeWrapper.Threading
         }
     }
 
-    internal delegate void WorkerSucceededEventHandler();
-    internal delegate void WorkerExceptionEventHandler(Exception exception);
+    
 }

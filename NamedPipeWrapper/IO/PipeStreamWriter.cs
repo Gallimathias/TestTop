@@ -21,7 +21,7 @@ namespace NamedPipeWrapper.IO
         /// </summary>
         public PipeStream BaseStream { get; private set; }
 
-        private readonly BinaryFormatter _binaryFormatter = new BinaryFormatter();
+        private readonly BinaryFormatter binaryFormatter;
 
         /// <summary>
         /// Constructs a new <c>PipeStreamWriter</c> object that writes to given <paramref name="stream"/>.
@@ -30,6 +30,7 @@ namespace NamedPipeWrapper.IO
         public PipeStreamWriter(PipeStream stream)
         {
             BaseStream = stream;
+            binaryFormatter = new BinaryFormatter();
         }
 
         #region Private stream writers
@@ -41,7 +42,7 @@ namespace NamedPipeWrapper.IO
             {
                 using (var memoryStream = new MemoryStream())
                 {
-                    _binaryFormatter.Serialize(memoryStream, obj);
+                    binaryFormatter.Serialize(memoryStream, obj);
                     return memoryStream.ToArray();
                 }
             }
@@ -58,15 +59,11 @@ namespace NamedPipeWrapper.IO
             BaseStream.Write(lenbuf, 0, lenbuf.Length);
         }
 
-        private void WriteObject(byte[] data)
-        {
-            BaseStream.Write(data, 0, data.Length);
-        }
+        private void WriteObject(byte[] data) => BaseStream.Write(data, 0, data.Length);
 
-        private void Flush()
-        {
-            BaseStream.Flush();
-        }
+
+        private void Flush() => BaseStream.Flush();
+
 
         #endregion
 
@@ -89,9 +86,7 @@ namespace NamedPipeWrapper.IO
         /// <exception cref="ObjectDisposedException">The pipe is closed.</exception>
         /// <exception cref="NotSupportedException">The pipe does not support write operations.</exception>
         /// <exception cref="IOException">The pipe is broken or another I/O error occurred.</exception>
-        public void WaitForPipeDrain()
-        {
-            BaseStream.WaitForPipeDrain();
-        }
+        public void WaitForPipeDrain() => BaseStream.WaitForPipeDrain();
+
     }
 }

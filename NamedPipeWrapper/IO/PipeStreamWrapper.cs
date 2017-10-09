@@ -44,10 +44,7 @@ namespace NamedPipeWrapper.IO
         /// <returns>
         ///     <c>true</c> if the <see cref="BaseStream"/> object is connected; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsConnected
-        {
-            get { return BaseStream.IsConnected && _reader.IsConnected; }
-        }
+        public bool IsConnected => BaseStream.IsConnected && reader.IsConnected;
 
         /// <summary>
         ///     Gets a value indicating whether the current stream supports read operations.
@@ -55,10 +52,7 @@ namespace NamedPipeWrapper.IO
         /// <returns>
         ///     <c>true</c> if the stream supports read operations; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanRead
-        {
-            get { return BaseStream.CanRead; }
-        }
+        public bool CanRead => BaseStream.CanRead;
 
         /// <summary>
         ///     Gets a value indicating whether the current stream supports write operations.
@@ -66,13 +60,10 @@ namespace NamedPipeWrapper.IO
         /// <returns>
         ///     <c>true</c> if the stream supports write operations; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanWrite
-        {
-            get { return BaseStream.CanWrite; }
-        }
+        public bool CanWrite => BaseStream.CanWrite;
 
-        private readonly PipeStreamReader<TRead> _reader;
-        private readonly PipeStreamWriter<TWrite> _writer;
+        private readonly PipeStreamReader<TRead> reader;
+        private readonly PipeStreamWriter<TWrite> writer;
 
         /// <summary>
         /// Constructs a new <c>PipeStreamWrapper</c> object that reads from and writes to the given <paramref name="stream"/>.
@@ -81,8 +72,8 @@ namespace NamedPipeWrapper.IO
         public PipeStreamWrapper(PipeStream stream)
         {
             BaseStream = stream;
-            _reader = new PipeStreamReader<TRead>(BaseStream);
-            _writer = new PipeStreamWriter<TWrite>(BaseStream);
+            reader = new PipeStreamReader<TRead>(BaseStream);
+            writer = new PipeStreamWriter<TWrite>(BaseStream);
         }
 
         /// <summary>
@@ -91,20 +82,16 @@ namespace NamedPipeWrapper.IO
         /// </summary>
         /// <returns>The next object read from the pipe, or <c>null</c> if the pipe disconnected.</returns>
         /// <exception cref="SerializationException">An object in the graph of type parameter <typeparamref name="TRead"/> is not marked as serializable.</exception>
-        public TRead ReadObject()
-        {
-            return _reader.ReadObject();
-        }
+        public TRead ReadObject() => reader.ReadObject();
+
 
         /// <summary>
         /// Writes an object to the pipe.  This method blocks until all data is sent.
         /// </summary>
         /// <param name="obj">Object to write to the pipe</param>
         /// <exception cref="SerializationException">An object in the graph of type parameter <typeparamref name="TRead"/> is not marked as serializable.</exception>
-        public void WriteObject(TWrite obj)
-        {
-            _writer.WriteObject(obj);
-        }
+        public void WriteObject(TWrite obj) => writer.WriteObject(obj);
+
 
         /// <summary>
         ///     Waits for the other end of the pipe to read all sent bytes.
@@ -112,17 +99,13 @@ namespace NamedPipeWrapper.IO
         /// <exception cref="ObjectDisposedException">The pipe is closed.</exception>
         /// <exception cref="NotSupportedException">The pipe does not support write operations.</exception>
         /// <exception cref="IOException">The pipe is broken or another I/O error occurred.</exception>
-        public void WaitForPipeDrain()
-        {
-            _writer.WaitForPipeDrain();
-        }
+        public void WaitForPipeDrain() => writer.WaitForPipeDrain();
+
 
         /// <summary>
         ///     Closes the current stream and releases any resources (such as sockets and file handles) associated with the current stream.
         /// </summary>
-        public void Close()
-        {
-            BaseStream.Close();
-        }
+        public void Close() => BaseStream.Close();
+
     }
 }
