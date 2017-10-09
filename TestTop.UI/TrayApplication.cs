@@ -9,19 +9,21 @@ namespace TestTop.UI
 {
     public class TrayApplication : IDisposable
     {
+        public string DesktopName { get; private set; }
+
         private NotifyIcon notifyIcon;
         private ContextMenu trayMenu;
-        NamedPipeClient<string[]> client;
-        private string name;
+        private NamedPipeClient<string[]> client;
 
         public event EventHandler OnExit;
 
         public TrayApplication()
         {
             client = new NamedPipeClient<string[]>("testTopPipe");
-            client.Start();
             client.Connected += Client_Connected;
             client.ServerMessage += Client_ServerMessage;
+            client.Start();
+
 
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Switch", Switch);
@@ -30,9 +32,7 @@ namespace TestTop.UI
             trayMenu.MenuItems.Add("Restore Icons", RestoreIcons);
             trayMenu.MenuItems.Add("Save Desktop", SaveDesktop);
             trayMenu.MenuItems.Add("Exit", Exit);
-
-
-
+            
             notifyIcon = new NotifyIcon()
             {
                 Text = "TestTop",
@@ -41,52 +41,23 @@ namespace TestTop.UI
             };
         }
 
-        private void Client_ServerMessage(NamedPipeConnection<string[], string[]> connection, string[] message)
+        public void Dispose()
         {
-            if (message[0] == "CurrentDesktopName" && string.IsNullOrWhiteSpace(name))
-            {
-                name = message[1];
-                var dh = new DesktopHelper();
-                client.PushMessage(new string[] { "NewDesktopSwitch", name, dh.DesktopHandle.ToString() });
-            }
+            notifyIcon.Visible = false;
+            notifyIcon?.Dispose();
+            notifyIcon = null;
+
+            trayMenu?.Dispose();
+            trayMenu = null;
+
+            client?.Stop();
+            client = null;
+
+            GC.Collect();
+            GC.SuppressFinalize(this);
         }
 
-        private void Client_Connected(NamedPipeConnection<string[], string[]> connection)
-        {
-            client.PushMessage(new string[]{"IAmAlive", name ?? ""});
-
-        }
-
-        private void SwitchBack(object sender, EventArgs e)
-        {
-            client.PushMessage(new string[] { "SwitchBack" });
-        }
-
-        private void SaveDesktop(object sender, EventArgs e)
-        {
-            client.PushMessage(new string[] { "SaveDesktop", name });
-        }
-
-        private void RestoreIcons(object sender, EventArgs e)
-        {
-            client.PushMessage(new string[] { "RestoreIcons", name });
-            //desktop.DesktopHelper.RestoreIconPositions();
-        }
-
-        private void Screenshot(object sender, EventArgs e)
-        {
-            DoStuff();
-        }
-
-        private async void DoStuff()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Switch(object sender, EventArgs e)
-        {
-            client.PushMessage(new string[] { "Switch" });
-        }
+        internal void Switch(object sender, EventArgs e) => PushMessage("Switch");
 
         internal void Exit(object sender, EventArgs e)
         {
@@ -95,22 +66,35 @@ namespace TestTop.UI
             OnExit?.Invoke(this, e);
         }
 
-        internal void Run()
-        {
-            notifyIcon.Visible = true;
+        internal void Run() => notifyIcon.Visible = true;
 
+        private void Client_ServerMessage(NamedPipeConnection<string[], string[]> connection, string[] message)
+        {
+            if (message[0] == "CurrentDesktopName" && string.IsNullOrWhiteSpace(DesktopName))
+            {
+                DesktopName = message[1];
+                PushMessage("NewDesktopSwitch", DesktopName, new DesktopHelper().DesktopHandle.ToString());
+            }
         }
 
-        public void Dispose()
-        {
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
-            trayMenu.Dispose();
-            notifyIcon = null;
-            trayMenu = null;
+        private void Client_Connected(NamedPipeConnection<string[], string[]> connection) => PushMessage("IAmAlive", DesktopName ?? "");
 
-            GC.Collect();
-            GC.SuppressFinalize(this);
+        private void SwitchBack(object sender, EventArgs e) => PushMessage("SwitchBack");
+
+        private void SaveDesktop(object sender, EventArgs e) => PushMessage("SaveDesktop", DesktopName);
+
+        private void RestoreIcons(object sender, EventArgs e) => PushMessage("RestoreIcons", DesktopName);
+
+        private void Screenshot(object sender, EventArgs e)
+        {
+            DoStuff();
         }
+
+        private void DoStuff()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PushMessage(params string[] args) => client.PushMessage(args);
     }
 }
