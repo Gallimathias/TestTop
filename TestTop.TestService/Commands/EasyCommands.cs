@@ -12,45 +12,50 @@ namespace TestTop.TestService.Commands
         static EasyCommands() => DesktopManager.DoStuff();
 
         [Command("RestoreIcons")]
-        public static string RestoreIcons(string[] arg)
+        public static bool RestoreIcons(string[] arg)
         {
             DesktopManager.Desktops.FirstOrDefault(x => x.Name == arg[0]).DesktopHelper.RestoreIconPositions();
             //DesktopManager.CurrentDesktop.DesktopHelper.RestoreIconPositions();
-            return "";
+            return true; //TODO: check if successfull
         }
 
         [Command("SaveDesktop")]
-        public static string SaveDesktop(string[] arg)
+        public static bool SaveDesktop(string[] arg)
         {
             DesktopManager.Desktops.FirstOrDefault(x => x.Name == arg[0]).Save();
             //DesktopManager.CurrentDesktop.Save();
-            return "";
+            return true; //TODO: check if successfull
         }
+
         [Command("Switch")]
-        public static string SwitchDesktop(string[] arg)
+        public static bool SwitchDesktop(string[] arg)
         {
             DesktopManager.Switch("test4");
-            return "";
+            return true; //TODO: check if successfull
         }
+
         [Command("NewDesktopSwitch")]
-        public static string NewDesktopSwitch(string[] arg)
+        public static bool NewDesktopSwitch(string[] arg)
         {
             DesktopManager.NewDesktopSwitch(arg[0], arg[1]);
-            return "";
+            return true; //TODO: check if successfull
         }
+
         [Command("SwitchBack")]
-        public static string SwitchBack(string[] arg)
+        public static bool SwitchBack(string[] arg)
         {
             DesktopManager.SwitchBack();
-            return "";
+            return true; //TODO: check if successfull
         }
+
         [Command("IAmAlive")]
-        public static string Alive(string[] arg)
+        public static bool Alive(string[] arg)
         {
             if (!MainService.Clients.Contains(arg[0]))
                 MainService.Clients.Add(arg[0]);
+
             Console.WriteLine(arg[0]);
-            return "";
+            return true; //TODO: check if successfull
         }
     }
 }

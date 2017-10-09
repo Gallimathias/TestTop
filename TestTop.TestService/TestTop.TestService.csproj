@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="CommandManager.cs" />
     <Compile Include="Commands\EasyCommands.cs" />
-    <Compile Include="Commands\SwitchCommand.cs" />
     <Compile Include="DesktopManager.cs" />
     <Compile Include="MainService.cs" />
     <Compile Include="Program.cs" />

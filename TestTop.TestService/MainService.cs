@@ -12,8 +12,8 @@ namespace TestTop.TestService
     {
         public static HashSet<string> Clients;
 
-        NamedPipeServer<string[]> server;
-        CommandManager commandManager;
+        private NamedPipeServer<string[]> server;
+        private CommandManager commandManager;
 
         public MainService()
         {
@@ -26,33 +26,32 @@ namespace TestTop.TestService
 
         }
 
-        private async void Server_ClientMessage(NamedPipeConnection<string[], string[]> connection, string[] message)
-        {
-            await commandManager.DispatchAsync(message[0], message.Skip(1).ToArray());
-        }
+        public void Dispose() => server.Stop();
 
-        private void Server_ClientConnected(NamedPipeConnection<string[], string[]> conn)
-        {
-            Console.WriteLine($"Client Connected with id: {conn.Name}");
-            if (!Clients.Contains(DesktopManager.CurrentDesktop.Name))
-                Clients.Add(DesktopManager.CurrentDesktop.Name);
-            conn.PushMessage(new string[] { "CurrentDesktopName", DesktopManager.CurrentDesktop.Name });
-        }
 
-        internal void OnStart(string[] args)
-        {
-            server.Start();
-        }
+        internal void OnStart(string[] args) => server.Start();
 
         //Until it's service
-        //internal void OnStop()
-        //{
-        //    server.Stop();
-        //}
+        //internal void OnStop() =>  server.Stop();
 
-        public void Dispose()
+        private async void Server_ClientMessage(NamedPipeConnection<string[], string[]> connection, string[] message)
         {
-            server.Stop();
+            var result = await commandManager.DispatchAsync(message[0], message.Skip(1).ToArray());
+
+            if (!result)
+                connection.PushMessage(new[] { "Error" });
         }
+
+        
+        private void Server_ClientConnected(NamedPipeConnection<string[], string[]> connection)
+        {
+            Console.WriteLine($"Client Connected with id: {connection.Name}");
+
+            if (!Clients.Contains(DesktopManager.CurrentDesktop.Name))
+                Clients.Add(DesktopManager.CurrentDesktop.Name);
+
+            connection.PushMessage(new[] { "CurrentDesktopName", DesktopManager.CurrentDesktop.Name });
+        }
+
     }
 }

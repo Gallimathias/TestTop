@@ -10,8 +10,5 @@ using System.Threading.Tasks;
 namespace TestTop.TestService
 {
     [CommandManager("CommandManager", "TestTop.TestService.Commands")]
-    public class CommandManager : CommandManager<string[], string>
-    {
-       
-    }
+    public class CommandManager : CommandManager<string[], bool> { }
 }

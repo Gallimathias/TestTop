@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,21 +12,19 @@ using TestTop.Core.WinAPI;
 
 namespace TestTop.TestService
 {
-    static class DesktopManager
+    internal static class DesktopManager
     {
-        public static List<Desktop> Desktops { get; set; }
+        public static ConcurrentBag<Desktop> Desktops { get; internal set; }
         public static IntPtr MainDesktopHandle { get; private set; }
         public static Desktop CurrentDesktop { get; private set; }
-
-        private static Desktop startDesktop;
+        
 
         static DesktopManager()
         {
-            Desktops = new List<Desktop>();
+            Desktops = new ConcurrentBag<Desktop>();
 
-            startDesktop = new Desktop("Default", MainDesktopHandle, MainDesktopHandle);
+            CurrentDesktop = new Desktop("Default", MainDesktopHandle, MainDesktopHandle);
             MainDesktopHandle = User32.GetDesktopWindow();
-            CurrentDesktop = startDesktop;
             File.WriteAllText(@"C:\Users\Public\mainhandle.txt", MainDesktopHandle.ToString()); //TODO No hardcoded thinks
 
             GetDesktops();
@@ -35,7 +34,7 @@ namespace TestTop.TestService
 
         public static void Switch(string name)
         {
-            startDesktop.Save();
+            CurrentDesktop.Save();
 
             if (string.IsNullOrWhiteSpace(name))
                 return;
@@ -47,13 +46,13 @@ namespace TestTop.TestService
                 desk = new Desktop(name, MainDesktopHandle);
                 Desktops.Add(desk);
             }
-            //var list = Process.GetProcesses().Where(x => x.ProcessName.ToLower().Contains("explorer")).ToList();
-            //list.ForEach(x => x.Kill());
+
             desk.Show();
             CurrentDesktop = desk;
 
             if (MainService.Clients.Contains(name))
                 return;
+
             desk.CreateProcess(Path.Combine(Environment.GetEnvironmentVariable("windir"), @"explorer.exe"));
             desk.CreateProcess(@"..\..\..\\TestTop.UI\bin\Debug\TestTop.UI.exe");
 
@@ -63,23 +62,23 @@ namespace TestTop.TestService
         {
             var desk = Desktops.FirstOrDefault(x => x.Name == name);
             desk.DesktopHelper.DesktopHandle = new IntPtr(int.Parse(handle));
-            Task.Run(() => { MessageBox.Show(handle.ToString()); });
+            //Task.Run(() => { MessageBox.Show(handle.ToString()); }); //only for manual debugging
         }
 
-        public static void GetDesktops()
+        public static bool GetDesktops()
         {
             IntPtr windowStation = User32.GetProcessWindowStation();
-            bool result = User32.EnumDesktops(windowStation, DesktopEnumProc, IntPtr.Zero);
+            return User32.EnumDesktops(windowStation, DesktopEnumProc, IntPtr.Zero);
         }
+        
+        public static void SwitchBack() => Switch("Default");
 
         private static bool DesktopEnumProc(string lpszDesktop, IntPtr lParam)
         {
-            Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle)); ;
-            return true;
+            var count = Desktops.Count;
+            Desktops.Add(new Desktop(lpszDesktop, MainDesktopHandle));
+            return Desktops.Count > count;
         }
-
-
-        public static void SwitchBack() => Switch("Default");
 
     }
 }
